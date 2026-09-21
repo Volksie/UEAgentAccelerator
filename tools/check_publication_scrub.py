@@ -109,7 +109,7 @@ def console_hit(line: str) -> str | None:
     return None
 
 
-CONSOLE_EXTS = {".md", ".py", ".cpp", ".h", ".cs", ".ps1", ".json", ".uplugin", ".ini", ".txt", ".html"}
+CONSOLE_EXTS = {".md", ".py", ".cpp", ".h", ".cs", ".ps1", ".json", ".uplugin", ".ini", ".txt", ".html", ".svg"}
 CONSOLE_SKIP: set[str] = set()
 
 
