@@ -2,6 +2,8 @@
 
 # An agent with a memory stack is right more often, and it gets there faster
 
+<sub>By **Louis Larsson-De Wet**</sub>
+
 We gave the same model the same questions about a large Unreal Engine codebase twice. The first time it had only shell and text search. The second time it also had a memory stack: a routing guide, pre-generated knowledge about every class and Blueprint, an engine API database and semantic code search. **With the stack it got more questions right, got none outright wrong, and used a fraction of the time and tokens.**
 
 ![On 139 everyday questions: 95% correct with the stack against 68% without it. 0 answers outright wrong against 26. 3 times less total time, 1.2 hours against 3.6. 2.2 times fewer input tokens, 93k per question against 200k.](docs/images/why-figures-light.svg#gh-light-mode-only)

@@ -2,6 +2,8 @@
 
 <p align="center"><i>Your agent can't read what UnrealHeaderTool wrote.</i></p>
 
+<p align="center">By <b>Louis Larsson-De Wet</b></p>
+
 <p align="center"><sub>If this is useful to you, please <b>⭐ star the repo</b> so other Unreal developers can find it.</sub></p>
 
 <p align="center">
