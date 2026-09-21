@@ -150,6 +150,28 @@
   footer{margin-top:64px;border-top:1px solid var(--rule);padding-top:20px;display:grid;gap:10px;font-size:.86rem;color:var(--ink-3);}
   footer p{max-width:78ch;}
 </style>
+<style>
+  /* Phone layout. The chart is drawn at a fixed 600px, which a phone can only show half of, so
+     below 640px it is swapped for a list whose bars are sized in percentages; and table cells may
+     wrap, so the tables fit instead of scrolling sideways. */
+  .chart-list{display:none;margin:18px 0 0;padding:0;list-style:none}
+  .chart-list li{margin:0 0 14px}
+  .chart-list .g{font-weight:600;font-size:15px;margin:0 0 6px}
+  .chart-list .row{display:flex;align-items:center;gap:8px;font-size:13px;margin:3px 0}
+  .chart-list .track{flex:1;height:10px;border-radius:3px;background:var(--rule)}
+  .chart-list .bar{height:100%;border-radius:3px}
+  .chart-list .b{background:var(--base)}
+  .chart-list .s{background:var(--stack)}
+  .chart-list .v{width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .chart-list .v.s-ink{color:var(--stack-ink);font-weight:600}
+  @media (max-width:640px){
+    .chart{display:none}
+    .chart-list{display:block}
+    th,td{white-space:normal;padding:8px 6px;font-size:14px}
+    /* the cost table (four columns): row labels wrap, figures never split mid-number */
+    table:has(th:nth-child(4)) td:not(:first-child){white-space:nowrap}
+  }
+</style>
 </head>
 <body>
 
@@ -311,6 +333,19 @@
       </g>
     </svg>
     </div>
+<ul class="chart-list" aria-label="Correct answers by kind of question, without and with the stack">
+<li><div class="g">Engine API and platform support</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:20%"></span></span><span class="v">20%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:100%"></span></span><span class="v s-ink">100%</span></div></li>
+<li><div class="g">Blueprint internals</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:57%"></span></span><span class="v">57%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:100%"></span></span><span class="v s-ink">100%</span></div></li>
+<li><div class="g">Build, tooling and procedure</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:52%"></span></span><span class="v">52%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:95%"></span></span><span class="v s-ink">95%</span></div></li>
+<li><div class="g">What makes things expensive</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:62%"></span></span><span class="v">62%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:94%"></span></span><span class="v s-ink">94%</span></div></li>
+<li><div class="g">Inheritance and ancestry</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:63%"></span></span><span class="v">63%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:92%"></span></span><span class="v s-ink">92%</span></div></li>
+<li><div class="g">What comments and docs say</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:70%"></span></span><span class="v">70%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:93%"></span></span><span class="v s-ink">93%</span></div></li>
+<li><div class="g">Reflection and replication</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:80%"></span></span><span class="v">80%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:98%"></span></span><span class="v s-ink">98%</span></div></li>
+<li><div class="g">What breaks if I change this</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:82%"></span></span><span class="v">82%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:95%"></span></span><span class="v s-ink">95%</span></div></li>
+<li><div class="g">Where things are defined</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:78%"></span></span><span class="v">78%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:90%"></span></span><span class="v s-ink">90%</span></div></li>
+<li><div class="g">Effective flags and writers</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:87%"></span></span><span class="v">87%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:93%"></span></span><span class="v s-ink">93%</span></div></li>
+<li><div class="g">Trick questions</div><div class="row"><span class="track"><span class="bar b" style="display:block;width:95%"></span></span><span class="v">95%</span></div><div class="row"><span class="track"><span class="bar s" style="display:block;width:100%"></span></span><span class="v s-ink">100%</span></div></li>
+</ul>
     <figcaption>Correctness with partial credit: a fully right answer scores 1 and a partly right one 0.5. Every answer was graded three times, and the majority grade is shown. Groups have 8 to 30 questions each. Blueprint internals, and most of inheritance and effective flags, are drawn from the 52 harder questions, so read those three bars as the harder set.</figcaption>
   </figure>
 </section>
