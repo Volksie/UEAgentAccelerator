@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: layers-skill-fires
+tags: [routing, skill]
+runs: 3
+execution:
+  prompt: |
+    I have an Unreal project with generated reflection artefacts under Docs/AgentMemory.
+    Which of those files should I open to find out whether a UPROPERTY is replicated and under
+    which COND_, and why that file rather than the header?
+  max_turns: 6
+  timeout_seconds: 180
+  allowed_tools: [Read, Glob, Grep, Skill]

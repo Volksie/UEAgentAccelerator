@@ -1,0 +1,48 @@
+{
+  "_comment": [
+    "What each benchmark arm is allowed to call. run_bench.py stages one MCP config per arm and passes it",
+    "with --strict-mcp-config, so an arm gets exactly the servers listed here and nothing from your own",
+    "~/.claude.json. Without that, the baseline arm inherits every server you have registered - including",
+    "the language server this benchmark is supposed to be measuring the absence of.",
+    "",
+    "The baseline arm is an agent with nothing we built, so it has no MCP servers. See",
+    "bench/BASELINE-ARM-SPEC.md before adding one: whatever you add stops being part of the difference.",
+    "",
+    "allowed_mcp_tools: claude -p is non-interactive, so an MCP tool that is not listed here is refused on",
+    "every call, silently. Read-only tools only; the mutating ones are removed in run_bench.py regardless.",
+    "",
+    "serena_gate: run_bench.py will not start the layers arm until Serena answers a scoped lookup AND",
+    "clangd's index resolves a known symbol. Without the second check, find_symbol_indexed answers [] in",
+    "0.1s straight after a restart, and every question is scored on 'no such symbol'. The defaults point",
+    "at the seed project in this repository; point them at a class in your own tree."
+  ],
+
+  "baseline": {
+    "mcp_servers": {},
+    "allowed_mcp_tools": []
+  },
+
+  "layers": {
+    "mcp_servers": {
+      "serena": { "type": "http", "url": "http://127.0.0.1:24290/mcp", "timeout": 60000 }
+    },
+    "allowed_mcp_tools": [
+      "mcp__serena__initial_instructions",
+      "mcp__serena__find_symbol",
+      "mcp__serena__find_symbol_indexed",
+      "mcp__serena__find_referencing_symbols",
+      "mcp__serena__find_declaration",
+      "mcp__serena__find_implementations",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__get_diagnostics_for_file"
+    ],
+    "serena_gate": {
+      "scoped_symbol": "UADStaminaComponent",
+      "scoped_path": "seed/AccelDemo/Source/AccelDemoCore/Public/ADStaminaComponent.h",
+      "open_file": "seed/AccelDemo/Source/AccelDemoCore/Private/ADStaminaComponent.cpp",
+      "index_symbol": "UADStaminaComponent",
+      "index_path_suffix": "AccelDemoCore/Public/ADStaminaComponent.h"
+    }
+  }
+}

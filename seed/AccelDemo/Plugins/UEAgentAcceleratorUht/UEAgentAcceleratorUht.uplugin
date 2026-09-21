@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1",
+	"FriendlyName": "UE Agent Accelerator UHT Exporter",
+	"Description": "Hosts the UHT exporter for Layer 3, the engine API surface. Carries no runtime or editor module: its only content is a *.ubtplugin.csproj that UnrealBuildTool compiles and registers with UnrealHeaderTool. It lives here under the project rather than beside the rest of the plugin because UBT's EnumerateUbtPlugins scans only the engine's and the project's own Build, Source, Plugins and Mods directories. AdditionalPluginDirectories is never consulted, and the csproj it finds must sit under an enabled plugin's directory.",
+	"Category": "Programming",
+	"CreatedBy": "Louis Larsson-De Wet",
+	"EnabledByDefault": false,
+	"CanContainContent": false,
+	"Installed": false,
+	"Modules": []
+}

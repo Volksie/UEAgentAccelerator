@@ -1,0 +1,14 @@
+schema_version: "1.1"
+name: routing-blueprint-callers
+tags: [routing, blast-radius]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: |
+    This project is at `MyGame`. I want to rename `ApplyStaminaDrain` on
+    `UMGStaminaComponent`. What would break? List every caller you can find, and say whether
+    the rename is safe.
+  max_turns: 8
+  timeout_seconds: 180
+  allowed_tools: [Read, Glob, Grep]

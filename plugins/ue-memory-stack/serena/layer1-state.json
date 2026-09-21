@@ -1,0 +1,82 @@
+{
+  "comment": [
+    "What a correctly installed Layer 1 looks like from the outside, so the installer and the doctor",
+    "cannot disagree. This file is ours: it describes Serena, it contains none of it.",
+    "",
+    "Each fix names a file under Serena's site-packages and a sentinel - a distinctive string the fix",
+    "introduces. A sentinel survives rewording of the code around it, which reverse-applying a diff does",
+    "not; that was an earlier version of this check and it failed on a machine patched by hand before the",
+    "script existed. Paths are relative to site-packages unless 'root' says otherwise: 'home' means the",
+    "user profile.",
+    "",
+    "SENTINELS ARE VERSION-SHAPED, and this file was re-derived against the 2.x fork. Two of the six",
+    "changed FILE between 1.7.0 and 2.x, and one changed its log wording - with the 1.7.0 sentinels the",
+    "doctor reported a working C# fix as absent. If you move to another Serena, re-derive these by",
+    "grepping the installed package rather than trusting this file.",
+    "",
+    "WE SHIP NO SERENA CODE. The fixes arrive as commits on the fork named in 'source', installed with",
+    "uv. Serena is GPL-3.0-or-later from v2 (solidlsp stays MIT), so shipping patches against it would",
+    "make this MIT repository carry GPL-derived files - see NOTICE.md."
+  ],
+  "source": {
+    "install": "uv tool install --force git+https://github.com/Volksie/serena@codemem",
+    "url": "https://github.com/Volksie/serena",
+    "branch": "codemem",
+    "upstream": "https://github.com/oraios/serena",
+    "why": "Every fix below is a commit on that branch, intended to go upstream; one already has (is_ignored_path, upstream f0693a10). On 1.7.0 these were hand patches that every 'uv tool upgrade' silently reverted.",
+    "licence": "Upstream is per component: solidlsp MIT, the Serena application GPL-3.0-or-later from v2. The fork inherits that unchanged. v1.7.0 (tag mit-final) is the last MIT release."
+  },
+  "serenaVersion": "2.0.0.dev0",
+  "versionNote": "Read EVERY dist-info, and prefer direct_url.json for which build it actually is. Two reasons. An in-place upgrade can leave the old dist-info beside the new one. And a packaged app's shell sees a UNION of its own redirected copy and the real one: on the machine this was written on, the real site-packages holds serena_agent-2.0.0.dev0 alone and the app container's private copy holds serena_agent-1.7.0 alone, but a shell inside the container lists BOTH at the same absolute path - so taking the first match reports 1.7.0, a build that is not serving anything. That is the trap the installer's redirection probe refuses over, and the same one as 'uv tool list' naming a stale copy.",
+  "fixes": [
+    {
+      "id": "freshness-skip-engine",
+      "file": "serena/ls_manager.py",
+      "sentinel": "_FRESHNESS_SKIP_TOP_LEVEL",
+      "matters": "Without it Serena walks the whole engine tree on every freshness check, about 190s per symbolic call on ours."
+    },
+    {
+      "id": "csharp-skip-ignored",
+      "file": "solidlsp/language_servers/csharp_language_server.py",
+      "sentinel": ".csproj file(s) matched by the project's ignore settings",
+      "matters": "Without it the C# server opens every .csproj in the engine, ThirdParty included.",
+      "note": "The 1.7.0 sentinel was the old log wording, 'skipped %d .csproj under ignored_paths'. It matches nothing on 2.x, where the fix is present and reworded - so the old sentinel reported a working fix as absent."
+    },
+    {
+      "id": "find-symbol-scope-guard",
+      "file": "serena/repl/api/lsp_api.py",
+      "sentinel": "_find_symbol_scope_refusal",
+      "matters": "Without it an unscoped find_symbol walks the tree for hours after the client has given up, and has crashed clangd.",
+      "note": "Lived in serena/tools/symbol_tools.py on 1.7.0. Upstream closed the issue as not planned, so this one stays local."
+    },
+    {
+      "id": "find-symbol-indexed",
+      "file": "serena/tools/symbol_tools.py",
+      "sentinel": "class FindSymbolIndexedTool",
+      "matters": "The fast whole-tree symbol lookup, about 0.1s from clangd's index. Absent, every definition question falls back to a file walk.",
+      "note": "The 2.x port carries three fixes the 1.7.0 patch never had: it never returns a bare empty list, one failing language server cannot sink the whole call, and the default language is cpp."
+    },
+    {
+      "id": "accept-hardening",
+      "file": "serena/util/accept_hardening.py",
+      "sentinel": "transient accept() error, listener kept",
+      "matters": "Without it one transient accept() error kills the HTTP listener while the process keeps running, so the server looks healthy and answers nothing.",
+      "note": "Was a sitecustomize.py shim on 1.7.0. Now a module called from serena/cli.py before the event loop serves, which is why it survives a reinstall."
+    },
+    {
+      "id": "ue-context",
+      "root": "home",
+      "file": ".serena/contexts/claude-code-ue.yml",
+      "sentinel": "search_for_pattern",
+      "matters": "The stock claude-code context excludes search_for_pattern, which is the only route to TODOs and inline notes. A routing table naming it then points at a tool that does not exist.",
+      "anyFileIn": ".serena/contexts",
+      "note": "NOT a patch and not in the fork. The installer derives it on your machine from your installed stock context, so this repository ships no copy of it. Any context carrying search_for_pattern will do - a team may run one under its own name - and the server must be started with --context <that name>."
+    },
+    {
+      "id": "startup-degrade-per-language",
+      "file": "solidlsp/ls_process.py",
+      "sentinel": "LANGUAGE SERVER DIED: ls_id=",
+      "matters": "Startup joins every language server under one shared deadline instead of waiting unbounded, and a server that fails or times out is recorded and skipped while the rest keep running. Without it one slow server holds up all of them, and a query naming a language whose server never started is answered by a DIFFERENT server - a wrong answer rather than an error. Commit cbac10b2 on the fork. The sentinel is a log literal rather than an exception message on purpose: prose gets reworded, and this file already carries one fix whose log line changed between versions so the old sentinel reported a WORKING fix as absent. The fork registers this literal as frozen and will say so at its registration if it ever has to move."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ue-agent-accelerator",
+  "description": "The layered memory stack for running coding agents on Unreal Engine codebases, and the benchmark that measures whether it helps.",
+  "owner": {
+    "name": "Louis Larsson-De Wet"
+  },
+  "plugins": [
+    {
+      "name": "ue-memory-stack",
+      "source": "./plugins/ue-memory-stack",
+      "description": "Generates what an Unreal codebase actually looks like at runtime - reflection specifiers, replication conditions and Blueprint-to-C++ edges - into files small enough to read, and tells an agent which one answers which question.",
+      "version": "0.4.2",
+      "author": {
+        "name": "Louis Larsson-De Wet"
+      },
+      "homepage": "https://github.com/Volksie/UEAgentAccelerator",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "unreal-engine",
+        "unreal",
+        "cpp",
+        "blueprint",
+        "codebase-memory",
+        "clangd",
+        "serena"
+      ]
+    },
+    {
+      "name": "ue-memory-bench",
+      "source": "./plugins/ue-memory-bench",
+      "description": "The paired benchmark behind the stack's published numbers: question generation from your own artefacts, a clean-room baseline arm, multi-pass judging, and the method notes that say what each figure is allowed to mean.",
+      "version": "0.4.2",
+      "author": {
+        "name": "Louis Larsson-De Wet"
+      },
+      "homepage": "https://github.com/Volksie/UEAgentAccelerator",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "unreal-engine",
+        "benchmark",
+        "evaluation",
+        "measurement"
+      ]
+    }
+  ]
+}

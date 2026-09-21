@@ -1,0 +1,26 @@
+{
+  "_about": "Copy this to .claude/agent-memory-stack.json in your project and fill in the <ANGLE BRACKETS>. It is the one place your tree's facts live, read by templates/scripts/AgentMemoryStack.Config.ps1 and through it by whatever setup and refresh scripts you wrap the accelerator in. EVERY PATH IS RELATIVE TO THE REPOSITORY OR CLIENT ROOT, because this file is committed and read on machines whose root is somewhere else. Nothing machine-specific belongs in it. The tools are not in it either: they arrive as a Claude Code plugin and address themselves. If you also run the benchmark, bench/projects.json holds its own project list for the question generator, and the two have to agree: a project in one and not the other is measured against artefacts nobody refreshes. Delete this key once you have filled the rest in.",
+
+  "stackVersion": 1,
+
+  "serena": {
+    "projectName": "<the name in .serena/project.yml, e.g. my-tree>",
+    "taskName": "<the scheduled task running the long lived server, e.g. Serena MCP (my-tree)>",
+    "port": 24290,
+    "pinnedVersion": "1.7.0"
+  },
+
+  "compileDbDir": ".clangd-db",
+  "engineSource": "Engine/Source",
+  "engineFolder": "Engine",
+
+  "projects": [
+    {
+      "name": "<ShortName, what you type at -Project>",
+      "uproject": "<MyGame/MyGame.uproject>",
+      "artefacts": "<MyGame/Docs/AgentMemory>",
+      "source": [ "<MyGame/Source>", "<MyGame/Plugins>" ]
+    }
+  ],
+
+}

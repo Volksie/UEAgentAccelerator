@@ -1,0 +1,46 @@
+# Unreal build output. The plugin is built per project, but UHT still writes an
+# Intermediate folder next to the plugin source, so it lands here too.
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+*.agentapi.json
+
+# Generated, machine bound, never committed
+compile_commands*.json
+.clangd-db/
+.cache/
+.serena/
+*.log
+*.err
+
+# Local overrides. Anything with a real path or a machine specific setting goes
+# in here so it cannot reach a commit.
+*.local.md
+*.local.ps1
+local/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editors
+.vs/
+.vscode/
+.idea/
+*.sln
+*.suo
+
+# UHT plugin shim: EngineDir is machine specific. Copy the .props.template beside it and fill it in.
+*.ubtplugin.csproj.props
+
+# MSBuild output from the UHT plugin shim
+obj/
+bin/
+
+# Editor vaults and workspaces
+.obsidian/
+
+# Built from bench/questions.json in one command; see docs/07-benchmarking.md
+bench/runset-*.json

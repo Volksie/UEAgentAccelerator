@@ -1,0 +1,41 @@
+{
+  "_comment": [
+    "The write guard matches Bash as well as the edit tools, and that is not belt and braces. The first",
+    "version matched Write|Edit only, and the first person to test it walked straight through: their",
+    "session was configured to make file changes with sed and heredocs, so a `sed -i` on a generated",
+    "artefact was never offered to the hook. A guard that covers only the paths nobody takes produces",
+    "confidence instead of protection, which is the exact failure this plugin exists to argue against.",
+    "",
+    "It costs about 220ms per matching call, measured, all of it PowerShell process startup - so roughly",
+    "a fifth of a second on every edit and every shell command. That is the price of the guard holding,",
+    "and it is the honest trade rather than a free one. Remove the Bash alternative from the matcher if",
+    "your sessions never write through the shell and you want those milliseconds back.",
+    "",
+    "A third hook, Note-BuildRanDump.ps1, still ships off: it would be a second process spawn on every",
+    "Bash call to say something that only applies after a build. docs/10-hooks.md has the block to paste.",
+    "Hooks add no always-on tokens: claude plugin details reports them as harness-only."
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/Warn-StackStale.ps1\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/Deny-ArtefactWrite.ps1\""
+          }
+        ]
+      }
+    ]
+  }
+}

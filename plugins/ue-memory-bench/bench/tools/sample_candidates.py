@@ -1,0 +1,159 @@
+#!/usr/bin/env python3
+"""
+Enumerate benchmark question candidates mechanically, then sample.
+
+bench/METHOD.md: if we hand-pick questions we bias towards things we already
+understand and the benchmark flatters the stack. So enumerate every candidate in a stratum, take
+a seeded random sample, and write the question from whatever comes up.
+
+This reads the generated reflection artifacts (index.md, classes/*.md, BlueprintCallers.md) plus
+the source tree, so it only knows what the stack itself can see. That is deliberate: a candidate
+the artifacts cannot describe is not a fair question for the artifact tier.
+
+Usage:
+  python sample_candidates.py <project-dir> [--seed N] [--out candidates.md]
+"""
+import argparse, os, random, re, sys, collections
+
+def read(p):
+    try:
+        with open(p, encoding='utf-8') as f: return f.read()
+    except OSError: return ''
+
+def parse_index(art):
+    """index.md rows: | `Class` | Module | `Parent` | Fns | Props | Replicated | link |"""
+    rows = []
+    for line in read(os.path.join(art, 'index.md')).split('\n'):
+        m = re.match(r'\|\s*`([^`]+)`\s*\|\s*([^|]+?)\s*\|\s*`([^`]*)`\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|', line)
+        if m:
+            rows.append(dict(cls=m.group(1), module=m.group(2), parent=m.group(3),
+                             fns=int(m.group(4)), props=int(m.group(5)), rep=int(m.group(6))))
+    return rows
+
+def parse_class(art, cls):
+    """Pull the function and property rows out of one class file."""
+    txt = read(os.path.join(art, 'classes', cls + '.md'))
+    fns, props = [], []
+    section = None
+    for line in txt.split('\n'):
+        if line.startswith('### Functions'): section = 'f'; continue
+        if line.startswith('### Properties'): section = 'p'; continue
+        m = re.match(r'\|\s*`([^`]+)`\s*\|(.*)\|', line)
+        if not m or line.startswith('|---'): continue
+        name, rest = m.group(1), m.group(2)
+        if section == 'f': fns.append((name, rest))
+        elif section == 'p': props.append((name, rest))
+    return fns, props
+
+def parse_bp_edges(art):
+    edges = []
+    for line in read(os.path.join(art, 'BlueprintCallers.md')).split('\n'):
+        m = re.match(r'\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|', line)
+        if m: edges.append(dict(symbol=m.group(1), bp=m.group(2), graph=m.group(3), kind=m.group(4)))
+    return edges
+
+def source_files(root):
+    out = []
+    for base, dirs, files in os.walk(root):
+        dirs[:] = [d for d in dirs if d not in ('Binaries','Intermediate','Saved','DerivedDataCache','.git')]
+        for f in files:
+            if f.endswith(('.h','.cpp','.cs','.py','.usf','.ush','.ini','.xml')):
+                p = os.path.join(base, f)
+                try: out.append((p, os.path.getsize(p)))
+                except OSError: pass
+    return out
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('project')
+    ap.add_argument('--seed', type=int, default=1)
+    ap.add_argument('--out', default=None)
+    a = ap.parse_args()
+
+    art = os.path.join(a.project, 'Docs', 'AgentMemory')
+    if not os.path.isdir(art):
+        sys.exit('no artifacts at %s, run the AgentMemoryDump commandlet first' % art)
+
+    rng = random.Random(a.seed)
+    idx = parse_index(art)
+    edges = parse_bp_edges(art)
+    src = source_files(a.project)
+
+    # Strata. Each is (label, population, how many to sample, what the question is about).
+    strata = []
+
+    strata.append(('C: replication', 
+        [r for r in idx if r['rep'] > 0],
+        'which properties replicate on this class and under what COND_'))
+
+    strata.append(('C: specifiers',
+        [r for r in idx if r['fns'] > 0],
+        'which UFUNCTIONs on this class are BlueprintCallable / Server / Client / NetMulticast'))
+
+    strata.append(('B: inheritance',
+        [r for r in idx if r['parent'] not in ('Object','-','')],
+        'what does this class derive from, and what else derives from the same parent'))
+
+    strata.append(('E: set completeness',
+        sorted({r['parent'] for r in idx if r['parent'] not in ('-','')}),
+        'list every class deriving from this parent (scored on recall AND precision)'))
+
+    strata.append(('F: negation',
+        [r for r in idx if r['rep'] == 0 and r['fns'] == 0],
+        'does anything replicate on this class / does it declare any UFUNCTION (answer: no)'))
+
+    strata.append(('Blueprint: blast radius',
+        edges,
+        'if this C++ symbol changes, which Blueprint graphs break'))
+
+    big = sorted(src, key=lambda t: -t[1])[:40]
+    strata.append(('Token cost: big files',
+        [dict(cls=os.path.basename(p), module='%d KB' % (n//1024), parent='', fns=0, props=0, rep=0) for p, n in big],
+        'a question whose naive answer is reading this whole file'))
+
+    lines = []
+    A = lines.append
+    A('# Sampled question candidates')
+    A('')
+    A('Generated by `bench/tools/sample_candidates.py`, seed **%d**, project `%s`.' % (a.seed, os.path.basename(os.path.abspath(a.project))))
+    A('')
+    A('Per bench/METHOD.md: the population is enumerated mechanically and the sample is')
+    A('seeded, so the set is reproducible and nobody gets to quietly pick the questions they already')
+    A('know the answer to. Re-run with the same seed to get the same candidates.')
+    A('')
+    A('**Write the question from whatever came up.** If a candidate turns out to be a bad question,')
+    A('say why in the question file rather than silently dropping it, otherwise the bias comes back.')
+    A('')
+
+    for label, pop, prompt in strata:
+        n = min(12, len(pop))
+        pick = rng.sample(pop, n) if pop else []
+        A('## %s' % label)
+        A('')
+        A('Population %d, sampled %d. Ask: *%s*' % (len(pop), n, prompt))
+        A('')
+        if not pick:
+            A('*(nothing in this stratum for this project)*')
+            A('')
+            continue
+        for p in pick:
+            if isinstance(p, dict) and 'symbol' in p:
+                A('- `%s` used by `%s` (%s, %s)' % (p['symbol'], p['bp'], p['graph'], p['kind']))
+            elif isinstance(p, dict):
+                extra = []
+                if p.get('rep'): extra.append('%d replicated' % p['rep'])
+                if p.get('fns'): extra.append('%d fns' % p['fns'])
+                if p.get('props'): extra.append('%d props' % p['props'])
+                A('- `%s` (%s%s)' % (p['cls'], p['module'], (', ' + ', '.join(extra)) if extra else ''))
+            else:
+                A('- `%s`' % p)
+        A('')
+
+    out = a.out or os.path.join('bench', 'candidates-seed%d.md' % a.seed)
+    with open(out, 'w', encoding='utf-8') as f: f.write('\n'.join(lines) + '\n')
+    print('wrote %s' % out)
+    for label, pop, _ in strata:
+        print('  %-28s population %d' % (label, len(pop)))
+
+if __name__ == '__main__':
+    main()

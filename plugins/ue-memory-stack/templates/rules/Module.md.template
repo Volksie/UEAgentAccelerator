@@ -1,0 +1,24 @@
+# <ModuleName> module
+
+> Delete this block once filled in. One of these per module, in *.claude/rules/*. Keep each one short: this is the file an agent reads when it already knows which module it's working in, so it should carry the things that aren't obvious from the code, not a summary of the code.
+
+<What kind of module this is, when it loads, and what it depends on.>
+
+Primary game module. Loaded at Default. Depends on `<OtherModule>`, `Engine`, `CoreUObject`. **Nothing in `<OtherModule>` may depend on this one.**
+
+## What is in here
+
+- `<AClass>` is <what it is>. Derives from `<Parent>`, implements `<IInterface>`. Owns a `<UComponent>` created as a default subobject named `<Name>`.
+- `<IInterface>` is <what it is>. `<Function>` is a `BlueprintNativeEvent`, so implementing classes provide `<Function>_Implementation`. `<OtherFunction>` is a plain C++ virtual on purpose, so it stays invisible to Blueprints and to the reflection dump.
+
+## Replication
+
+<The conditions and where they live. Worth stating explicitly, because the header doesn't say.>
+
+`<Property>` replicates `COND_OwnerOnly` with `OnRep_<Property>`. `<Other>` replicates `COND_SkipOwner`. Both conditions live in `GetLifetimeReplicatedProps`, not in the header.
+
+`<SetterFunction>` is the only supported way to change `<Property>`. Writing to it directly skips the replication bookkeeping.
+
+## Design docs
+
+- `<Project>/Docs/Design/<Doc>.md` covers <what it covers>.

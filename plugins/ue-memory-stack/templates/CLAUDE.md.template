@@ -1,0 +1,91 @@
+# CLAUDE.md
+
+> **Delete this block once you've filled the file in.**
+>
+> Copy this to *CLAUDE.md* at the root of your project. Everything in `<ANGLE BRACKETS>` is a placeholder. Rows in the routing table that don't apply to you should be deleted rather than left empty, because a row pointing at a tool you don't have is worse than no row: the agent tries it, gets nothing, and falls back to grep having spent a call.
+>
+> Work through it in this order. The module map and the routing table are the two that matter. the ue-memory-stack plugin's *04-writing-your-claude-md.md* goes through the routing table row by row and says which ones are load bearing.
+>
+> Keep it short. This file is loaded into every session, so everything in it is paid for on every question whether it gets used or not. Ours sits around 100 to 200 lines.
+
+## What this tree is
+
+- `<Engine/>` is <the engine, source built or installed>. **Read only.** If engine behaviour needs changing, subclass it.
+- `<YourProject/>` is <what it is>.
+- `<YourProject>/Docs/AgentMemory/` holds the generated reflection dumps and Blueprint index. These are generated. Never hand edit them, the commandlet is the source of truth.
+- `<YourProject>/Docs/Design/` holds design docs, each naming the modules and classes it governs in its front matter.
+
+## Build commands
+
+Call `UnrealBuildTool.exe` directly rather than `Build.bat`, because Build.bat holds a batch level lock that survives a cancelled build and blocks the next one.
+
+```
+<path to>\UnrealBuildTool.exe <YourProject>Editor Win64 Development -Project=<path>\<YourProject>.uproject
+```
+
+Regenerate the reflection dumps after any `UCLASS`, `UFUNCTION`, `UPROPERTY` or replication change:
+
+```
+<path to>\UnrealEditor-Cmd.exe <path>\<YourProject>.uproject ^
+  -run=UEAgentAcceleratorTools.AgentMemoryDump -unattended -nopause -nosplash -NullRHI -Multiprocess
+```
+
+Regenerate the compile database after any `.Build.cs` or module change. All three of those flags are load bearing, and the ue-memory-stack plugin's *03-running-the-dump.md* says why.
+
+## Module map
+
+<One line per module. What it is, what it depends on, and any rule about the direction of that dependency. This is the section an agent reads before deciding where a change belongs.>
+
+- `<ModuleA>` is the primary game module. <What lives in it.>
+- `<ModuleB>` is <a lower level runtime module loaded at PreDefault>. `<ModuleA>` depends on it, never the other way round.
+
+## Querying this codebase
+
+Prefer a structured query over reading files. Reach for the right layer first rather than grepping by habit; most questions should never need a file read.
+
+| Question | First stop | Fallback |
+|---|---|---|
+| Where is X defined | `find_symbol_indexed`: clangd's whole-tree index, about 0.1s. Matching is fuzzy, so pick the exact name; `Class::Func` narrows a member. **Needs the patch in *serena/*; delete this row without it** | Grep for the file, then `find_symbol` with `relative_path` |
+| What does X derive from, the **full** chain | `Docs/AgentMemory/classes/<Class>.md`, the `Inherits:` line, which carries the whole chain to `UObject` | `index.md` gives the **immediate** parent only, so chasing a chain through it costs one grep per level |
+| Who calls X, blast radius of a change | `find_referencing_symbols` for C++, **and the Blueprint half**: read `Docs/AgentMemory/bpcallers/<OwningClass>.md`. Both, always | ripgrep, C++ only |
+| Which Blueprints derive from X, implement Y, are data only | grep `Docs/AgentMemory/Blueprints.md` for the native parent, then read `blueprints/<Parent>.md` | none |
+| What does X's comment say | `find_symbol(include_info=True)` | read the file |
+| Is X BlueprintCallable, replicated, under which `COND_` | grep `Docs/AgentMemory/index.md` for the class, then read `classes/<Class>.md`. **Check its size first and grep it instead if it is over ~5 KB.** Never read the index whole | never clangd, it cannot see any of this |
+| Why is this system built this way | `<YourProject>/Docs/Design/*.md` | source history |
+| TODO, HACK, inline notes | `search_for_pattern` if your Serena context exposes it (the stock `claude-code` one does not), otherwise Grep | none, text search is the only route |
+| C# build system, `.Build.cs`, UBT | <Serena with a C# language server> | ripgrep |
+| Build commands, module map, conventions | already in this file | none needed |
+
+**Important: never call `find_symbol` without `relative_path`.** It walks every file in every workspace folder instead of using the index. With the engine in the workspace it times out, and the walk carries on after the timeout until it crashes clangd. The scope guard in *serena/* refuses the call, and refuses directories over 1,000 source files. Scoped to a header it takes 0.01–12s. Get the file from `find_symbol_indexed` first. Check its location once: an out-of-line method resolves to its `.cpp`, and a `UENUM` can resolve to its `.generated.h` under `Intermediate/`.
+
+**`find_symbol_indexed` returns `[]` straight after a server restart**, in about 0.1s, until clangd has opened a file. That empty answer doesn't mean "no such symbol". Make one scoped call first and ask again.
+
+**Important:** a caller list is not complete until you have read the Blueprint half as well. A Blueprint graph calling a `BlueprintCallable` function is a caller no C++ tool can see, `rg` skips `.uasset` silently, and renaming the function still compiles. Those files are generated from resolved graph nodes and cover calls, property reads and property writes, so **a class absent from the index genuinely has no Blueprint users**. Never answer a blast radius question from C++ alone, and never fall back to `strings` on a `.uasset`: the index is the answer and the binary is not.
+
+**Important:** a per-class artefact is usually small and occasionally is not, so **check the size before reading one whole**. The median is around 1 KB, but the biggest class in a large module can be 30 KB or more. Grep the file for the row you want, or read the Properties or Functions table alone.
+
+**Important:** for anything about units, ranges, bounds or contracts, the comment alone is not an answer. Read the body as well. Hover returns the comment with nothing to contradict it, so on this class of question the cheap route is the accurate one.
+
+Escalate cheapest first: this file (free), the reflection dump, a symbol query, hover, then whole files. That last one is where we started before any of this existed.
+
+## Hard boundaries
+
+- Never modify anything under `<Engine/>`.
+- Never commit `Binaries/`, `Intermediate/`, `Saved/`, `DerivedDataCache/`.
+- Never hand edit `<YourProject>/Docs/AgentMemory/`. It is generated; the commandlet is the source of truth, not the files.
+- <Anything else that has bitten you. This section is for things that look reasonable and are not.>
+
+## Conventions that get got wrong unaided
+
+<Keep the ones that apply, delete the rest, add your own. These are the ones that come up on any UE project.>
+
+- `GENERATED_BODY()` goes immediately after the opening brace of a `UCLASS` or `USTRUCT`, and the file includes `<ClassName>.generated.h` **last**. Adding a line above `GENERATED_BODY()` invalidates the generated header until the next build, because it keys off `__LINE__`.
+- Reflection macros are parsed by UnrealHeaderTool, not the C preprocessor, so clangd sees none of them. The reflection dump is the authority on specifiers and replication.
+- A `UPROPERTY(Replicated)` does nothing on its own. It needs an entry in `GetLifetimeReplicatedProps`, and the `COND_` lives there rather than in the header.
+- A `UFUNCTION` on an interface must be redeclared in every implementing class. For a plain virtual that Blueprints and the reflection system never see, leave the `UFUNCTION` off entirely.
+- Prefer `TObjectPtr<T>` over raw pointers for `UPROPERTY` members.
+- <Where gameplay tags are declared, if you use them.>
+
+## Machine specific
+
+Local paths and personal overrides go in `CLAUDE.local.md`, which is not committed.

@@ -1,0 +1,21 @@
+{
+  "comment": [
+    "The artefact format this plugin's tools expect, so the health check can compare it against what",
+    "MANIFEST.md says the dump actually wrote. The number is owned by the commandlet - the constant",
+    "kArtefactFormatVersion in AgentMemoryDumpCommandlet.cpp - and this file mirrors it for the",
+    "PowerShell side, which cannot read a C++ constant. tools/check_artefact_format.py fails the",
+    "repository when the two drift, because a stamp nobody compares is decoration.",
+    "",
+    "Bump it when a change would make an older artefact set wrong rather than merely smaller: a column",
+    "that moves, a file that stops being written, a meaning that changes. Not for a new file or row."
+  ],
+  "artefactFormat": 1,
+  "introducedIn": "0.2.0",
+  "history": [
+    {
+      "format": 1,
+      "plugin": "0.2.0",
+      "what": "First stamped format. Sets written before this carry no format row at all, which is how they are recognised."
+    }
+  ]
+}

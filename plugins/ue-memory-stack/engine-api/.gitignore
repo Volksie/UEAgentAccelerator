@@ -1,0 +1,8 @@
+# Generated, large, and true only of the tree that produced them.
+*.db
+*.db-shm
+*.db-wal
+
+# Reports the builders write beside themselves.
+*-report.md
+exporter-result.md

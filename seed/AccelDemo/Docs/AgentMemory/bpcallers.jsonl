@@ -1,0 +1,4 @@
+{"symbol_class":"ADCharacter","symbol_name":"ApplyDamage","kind":"call","blueprint_path":"/Game/Bench/BP_AccelDemoCharacter","graph":"EventGraph","uses":1}
+{"symbol_class":"ADCharacter","symbol_name":"IsAlive","kind":"call","blueprint_path":"/Game/Bench/BP_AccelDemoCharacter","graph":"EventGraph","uses":1}
+{"symbol_class":"ADCharacter","symbol_name":"MaxHealth","kind":"read","blueprint_path":"/Game/Bench/BP_AccelDemoCharacter","graph":"EventGraph","uses":1}
+{"symbol_class":"ADStaminaComponent","symbol_name":"ApplyStamina","kind":"call","blueprint_path":"/Game/Bench/BP_StaminaPickup","graph":"EventGraph","uses":1}

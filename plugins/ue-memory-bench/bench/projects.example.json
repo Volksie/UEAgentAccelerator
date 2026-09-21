@@ -1,0 +1,70 @@
+{
+  "_comment": [
+    "A three project set, which is the shape we measured with. Copy over projects.json and edit.",
+    "",
+    "The point of more than one project is coverage rather than volume. A stratum needs a population",
+    "to be sampled from, and no single project has all of them: a small project you control gives you",
+    "answer keys you can hand verify, a large one gives you Blueprint blast radius that isn't trivial,",
+    "and a deep one gives you files too big to read. Take each stratum from wherever it is actually",
+    "populated rather than forcing every project to answer every group.",
+    "",
+    "Group H is deprecation, and it comes from the engine tree rather than from any project, because",
+    "a project with no UE_DEPRECATED in it would give an empty stratum. Set engine_source to your",
+    "engine's Source folder to enable it."
+  ],
+
+  "engine_source": "UnrealEngine/Engine/Source",
+  "engine_strata": { "H": 10 },
+
+  "projects": [
+    {
+      "_comment": "Large sample game. Most classes, most Blueprints, so it carries C, E and F.",
+      "key": "large",
+      "dir": "SomeLargeProject",
+      "areas": {
+        "default": "Gameplay framework",
+        "rules": [
+          { "module_contains": "Editor", "area": "Editor tooling" },
+          { "module_in": ["MainGameModule", "SomeFeaturePlugin"], "area": "Project code" }
+        ]
+      },
+      "strata": {
+        "A": { "n": 14 },
+        "B": { "n": 14 },
+        "C": { "n": 20 },
+        "E": { "n": 13 },
+        "F": { "n": 10 }
+      }
+    },
+    {
+      "_comment": [
+        "Deep plugin. Few classes, very large files. Good for cost, poor for replication:",
+        "if only two classes replicate anything, don't ask it group C questions."
+      ],
+      "key": "deep",
+      "dir": "SomeDeepPlugin",
+      "areas": {
+        "default": "Project code",
+        "rules": [ { "module_contains": "Editor", "area": "Editor tooling" } ]
+      },
+      "strata": {
+        "A": { "n": 6 },
+        "B": { "n": 6 },
+        "E": { "n": 3, "generators": ["subclasses"] },
+        "F": { "n": 5, "generators": ["no_rep", "no_ufunction"] }
+      }
+    },
+    {
+      "_comment": "Small seed project. The only one whose keys we hand verify, so it carries the hand checked blast radius.",
+      "key": "seed",
+      "dir": "seed/AccelDemo",
+      "areas": { "default": "Project code", "rules": [] },
+      "strata": {
+        "E": { "n": 4, "generators": ["bp_subclasses", "blast"], "blast": { "lo": 1, "hi": 99, "hand": true } }
+      },
+      "cpp_callers": {
+        "ADStaminaComponent::ApplyStamina": "Three C++ callers: ..."
+      }
+    }
+  ]
+}

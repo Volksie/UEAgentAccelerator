@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copy this to UEAgentAcceleratorUhtPlugin.ubtplugin.csproj.props and set EngineDir to your own
+  engine. The real .props is gitignored, because the path is machine specific and committing it
+  breaks the build for everyone else.
+
+  Point it at the Engine folder inside the engine root, not at the root itself.
+-->
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<EngineDir Condition="'$(EngineDir)' == ''">C:\Path\To\UnrealEngine\Engine</EngineDir>
+	</PropertyGroup>
+</Project>

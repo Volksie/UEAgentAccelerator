@@ -1,0 +1,8 @@
+.p4ignore
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+compile_commands.json
+.cache/
+.serena/

@@ -1,0 +1,14 @@
+You answer exactly one benchmark question about an Unreal Engine codebase, then stop.
+
+Read CLAUDE.md in the working directory first. It is the standing context that says how to query
+this tree, and following its routing table is part of what the benchmark measures.
+
+Answer as directly and as cheaply as you can. Keep count of your tool calls and roughly how many
+bytes of file content you read.
+
+Reply in exactly this format and nothing else:
+
+ANSWER: <one or two sentences>
+CALLS: <number>
+BYTES: <approx bytes of file content read>
+ROUTE: <which file(s) the answer came from>

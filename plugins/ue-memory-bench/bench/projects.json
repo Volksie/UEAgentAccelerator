@@ -1,0 +1,52 @@
+{
+  "_comment": [
+    "Which projects the question generator draws from, and how many questions come from each.",
+    "",
+    "This default targets ONE project, the seed, so the benchmark runs out of the box. Point it at",
+    "your own project by changing 'dir', or add more entries: the shape is multi-project and always",
+    "has been, one is just the sensible default. See projects.example.json for a three project set,",
+    "and docs/07-benchmarking.md for what the groups mean.",
+    "",
+    "'n' is a target rather than a promise. A stratum with no population in your project comes up",
+    "short and the generator says so in the Shortfalls section rather than inventing questions."
+  ],
+
+  "engine_source": null,
+  "engine_strata": {},
+
+  "projects": [
+    {
+      "key": "acceldemo",
+      "dir": "seed/AccelDemo",
+
+      "areas": {
+        "default": "Project code",
+        "rules": [
+          { "module_contains": "Editor", "area": "Editor tooling" },
+          { "module_contains": "Tools", "area": "Editor tooling" }
+        ]
+      },
+
+      "strata": {
+        "A": { "n": 6 },
+        "B": { "n": 1 },
+        "C": { "n": 6 },
+        "E": { "n": 1, "blast": { "lo": 1, "hi": 99, "hand": true } },
+        "F": { "n": 4 }
+      },
+
+      "_cpp_callers_comment": [
+        "The C++ half of a blast radius key, which the artefacts cannot supply because they carry",
+        "only Blueprint edges. Hand written and hand verified, so only worth doing for a project",
+        "small enough to keep them true. Verified by grep over seed/AccelDemo/Source.",
+        "Leave this out for a large project: the generator then marks the key as needing the C++",
+        "half added by hand, which is honest, rather than carrying a stale answer."
+      ],
+      "cpp_callers": {
+        "ADStaminaComponent::ApplyStamina": "Three C++ callers: the deferred lambda in `AADCharacter::BeginPlay` (*ADCharacter.cpp:31*), `AADCharacter::OnInteracted` (*ADCharacter.cpp:65*), and the regen path in `UADStaminaComponent::TickComponent` (*ADStaminaComponent.cpp:46*). Four callers in total, and a C++ only answer is wrong rather than merely partial",
+        "ADCharacter::IsAlive": "No C++ callers at all. It is an inline `BlueprintPure` accessor declared in the header and nothing in C++ calls it, so the Blueprint graph is the only caller in the project. An agent that reports \"no callers\" has found the C++ truth and missed the answer",
+        "ADCharacter::MaxHealth": "Two C++ reads: the clamp in `AADCharacter::ApplyDamage` (*ADCharacter.cpp:44*) and the reset in the respawn path (*ADCharacter.cpp:80*)"
+      }
+    }
+  ]
+}

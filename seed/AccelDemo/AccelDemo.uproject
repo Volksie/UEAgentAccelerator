@@ -1,0 +1,36 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "",
+  "Category": "",
+  "Description": "Seed project for agentic memory benchmarking.",
+  "Modules": [
+    {
+      "Name": "AccelDemoCore",
+      "Type": "Runtime",
+      "LoadingPhase": "PreDefault"
+    },
+    {
+      "Name": "AccelDemo",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "AccelDemoTools",
+      "Type": "Editor",
+      "LoadingPhase": "PostEngineInit"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "UEAgentAccelerator",
+      "Enabled": true
+    },
+    {
+      "Name": "UEAgentAcceleratorUht",
+      "Enabled": true
+    }
+  ],
+  "AdditionalPluginDirectories": [
+    "../../plugins/ue-memory-stack/ue-plugin"
+  ]
+}

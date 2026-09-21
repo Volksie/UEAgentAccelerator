@@ -1,0 +1,26 @@
+---
+system: <Name>
+modules: [<ModuleA>, <ModuleB>]
+classes: [<UClassOne>, <AClassTwo>]
+status: current
+---
+
+# <Name>
+
+> Delete this block once filled in. The front matter is the point of the template: it's what lets an agent find this doc from a class name rather than by guessing filenames, so fill in `modules` and `classes` accurately and update them when the code moves.
+>
+> `status` is one of current, superseded or draft. A superseded doc that still says current is worse than no doc, because it will be believed.
+
+<One paragraph on what the system is and where it lives. Name the class that owns the state.>
+
+## <How it behaves>
+
+<The rules. Numbers with their units. Where a number came from, if it came from playtesting or measurement rather than a technical constraint, because that's the thing nobody can recover from reading the code.>
+
+## Replication
+
+<What replicates, to whom, and why. This is the section that stops someone "fixing" a condition.>
+
+## Why it's built this way
+
+<The alternatives that were tried and rejected, and what went wrong with them. This is the part the code cannot tell you and the reason this file exists.>

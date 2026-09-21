@@ -1,0 +1,47 @@
+# Building and regenerating
+
+> Delete this block once filled in. This goes in *.claude/rules/*. It exists so build commands get copied rather than guessed, and so the non-obvious flags survive someone tidying them away.
+
+Call UnrealBuildTool directly rather than *Build.bat*, because Build.bat holds a batch level lock that survives a cancelled build and blocks the next one.
+
+```
+<engine>\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.exe ^
+  <Project>Editor Win64 Development -Project=<path>\<Project>.uproject
+```
+
+**Important:** don't wrap UBT in PowerShell with `2>&1`. On PowerShell 5.1, redirecting a native executable's stderr wraps each line in an ErrorRecord and corrupts `$?`, so a build that succeeded is reported as `Result: Failed (OtherCompilationError)`. Run it from a plain shell, or redirect the two streams to separate files.
+
+## Regenerating the reflection dump
+
+After any `UCLASS`, `UFUNCTION`, `UPROPERTY` or replication change:
+
+```
+<engine>\Engine\Binaries\Win64\UnrealEditor-Cmd.exe ^
+  <path>\<Project>.uproject ^
+  -run=UEAgentAcceleratorTools.AgentMemoryDump ^
+  -unattended -nopause -nosplash -NullRHI -Multiprocess
+```
+
+Three of those flags are load bearing and each cost real time to find:
+
+- **`-Multiprocess`.** Without it the editor calls Turnkey, which shells out to *Build.bat* `-Mode=ValidatePlatforms`, takes a global lock and sits in a `ping` loop forever.
+- **The module qualified `-run` name.** The module loads at `PostEngineInit`, after commandlet class lookup, so a bare `-run=AgentMemoryDump` cannot resolve.
+- **`-NullRHI`.** No graphics device in a commandlet.
+
+**Important:** the plugin's binaries are built **per project**. If you run this on more than one project, each needs its own build. A dump against a stale DLL succeeds, logs its usual summary, exits 0, and writes the old format.
+
+## Regenerating the compile database
+
+Only needed for the symbol index layer. Regenerate after any *.Build.cs* or module change.
+
+```
+<engine>\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.exe ^
+  <Project>Editor Win64 Development -Project=<path>\<Project>.uproject ^
+  -mode=GenerateClangDatabase -NoExecCodeGenActions -OutputDir=<path>
+```
+
+**Note:** it isn't incremental and every path in it is absolute, so moving or renaming the tree invalidates the index built on top of it.
+
+## <Anything else that has bitten you>
+
+<Keep the list short and specific. A build note is worth writing down when the failure looks like something other than its cause: a lock that presents as a hang, a stale binary that presents as success, a missing helper executable that presents as the tool being broken.>

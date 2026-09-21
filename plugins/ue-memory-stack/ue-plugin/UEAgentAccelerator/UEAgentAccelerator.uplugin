@@ -1,0 +1,25 @@
+{
+	"FileVersion": 3,
+	"Version": 6,
+	"VersionName": "0.4.2",
+	"FriendlyName": "UE Agent Accelerator",
+	"Description": "Emits a committable description of a project's live reflection surface and its Blueprint to C++ edges, for agent retrieval. Editor only, commandlet driven, writes no runtime code.",
+	"Category": "Programming",
+	"CreatedBy": "Louis Larsson-De Wet",
+	"EnabledByDefault": false,
+	"CanContainContent": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "UEAgentAcceleratorTools",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
+		}
+	]
+}

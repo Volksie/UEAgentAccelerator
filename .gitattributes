@@ -1,0 +1,15 @@
+# Normalise text to LF in the repository. The dump output is deterministic and gets committed, so a
+# machine that checks out CRLF and regenerates would otherwise show every artefact as modified.
+* text=auto eol=lf
+
+# Unreal assets are binary. Never let line ending conversion near them: a mangled .uasset is a
+# corrupt Blueprint, and it will not be obvious which change broke it.
+*.uasset binary
+*.umap binary
+*.png binary
+*.dll binary
+*.pdb binary
+
+# Windows scripts are more predictable with CRLF in an editor, and PowerShell reads either.
+*.ps1 text eol=crlf
+*.bat text eol=crlf

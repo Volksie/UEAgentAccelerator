@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- EngineDir is machine specific, so it lives in a .props file beside this one that is NOT
+       committed. Copy UEAgentAcceleratorUhtPlugin.ubtplugin.csproj.props.template to
+       UEAgentAcceleratorUhtPlugin.ubtplugin.csproj.props and set the path to your engine. -->
+  <Import Project="UEAgentAcceleratorUhtPlugin.ubtplugin.csproj.props" Condition="Exists('UEAgentAcceleratorUhtPlugin.ubtplugin.csproj.props')" />
+  <Import Project="$(EngineDir)\Source\Programs\Shared\UnrealEngine.csproj.props" />
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <RootNamespace>UEAgentAcceleratorUhtPlugin</RootNamespace>
+    <AssemblyName>UEAgentAcceleratorUhtPlugin</AssemblyName>
+    <!-- Output stays inside this plugin. Epic's ScriptPlugin example writes into Engine\Binaries,
+         and we treat the engine tree as read only. UBT uses whatever assembly the build produces,
+         so the path is free. -->
+    <OutputPath>..\Binaries\DotNET\UnrealBuildTool\Plugins\UEAgentAcceleratorUhtPlugin\</OutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <!-- ONE copy of the exporter source, kept with the rest of the plugin. Only this csproj has to
+       live under the project, because UBT does not look in AdditionalPluginDirectories for it. A
+       second project that needs the exporter gets another thin csproj like this one, never another
+       copy of the .cs. -->
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\plugin\UEAgentAccelerator\Source\UEAgentAcceleratorUht\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EpicGames.Build">
+      <HintPath>$(EngineDir)\Binaries\DotNET\UnrealBuildTool\EpicGames.Build.dll</HintPath>
+    </Reference>
+    <Reference Include="EpicGames.Core">
+      <HintPath>$(EngineDir)\Binaries\DotNET\UnrealBuildTool\EpicGames.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EpicGames.UHT">
+      <HintPath>$(EngineDir)\Binaries\DotNET\UnrealBuildTool\EpicGames.UHT.dll</HintPath>
+    </Reference>
+    <Reference Include="UnrealBuildTool">
+      <HintPath>$(EngineDir)\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

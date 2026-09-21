@@ -1,0 +1,21 @@
+{
+  "name": "ue-memory-stack",
+  "displayName": "UE Agent Accelerator",
+  "version": "0.4.2",
+  "description": "Generates what an Unreal codebase actually looks like at runtime - reflection specifiers, replication conditions and Blueprint-to-C++ edges - into files small enough to read, and tells an agent which one answers which question. Windows and PowerShell for the scripts; the commandlet itself is not.",
+  "author": {
+    "name": "Louis Larsson-De Wet"
+  },
+  "homepage": "https://github.com/Volksie/UEAgentAccelerator",
+  "repository": "https://github.com/Volksie/UEAgentAccelerator",
+  "license": "MIT",
+  "keywords": [
+    "unreal-engine",
+    "unreal",
+    "cpp",
+    "blueprint",
+    "codebase-memory",
+    "clangd",
+    "serena"
+  ]
+}
