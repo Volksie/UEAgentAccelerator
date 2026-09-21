@@ -36,6 +36,18 @@ Apache License v2.0 with LLVM Exceptions. <https://github.com/llvm/llvm-project>
 
 Optional, and only relevant if you're running Layer 1. clangd builds the C++ index Serena queries. On Windows it usually comes with the Visual Studio LLVM component, so most people already have it and don't install anything.
 
+## uv
+
+MIT or Apache-2.0, Astral. <https://github.com/astral-sh/uv>
+
+The Serena installer, *plugins/ue-memory-stack/serena/Install-SerenaForUE.ps1*, runs `uv tool install` to put Serena in its own environment. You install uv yourself; nothing of it is in this repository.
+
+## IBM Plex
+
+SIL Open Font License 1.1, IBM. <https://github.com/IBM/plex>
+
+The project page in *docs/index.html* loads IBM Plex Sans, Serif and Mono from Google Fonts when you open it. The fonts aren't stored in this repository.
+
 ## Python 3
 
 Used by the benchmark harness in *plugins/ue-memory-bench/bench/tools*. Install it yourself from <https://www.python.org>. The harness uses the standard library only, so there are no packages to install and nothing further to attribute.

@@ -151,6 +151,19 @@
   footer p{max-width:78ch;}
 </style>
 <style>
+  /* The source page never styled a plain link, so they fell back to the browser's #0000ee, which is
+     close to invisible on the dark background. */
+  a{color:var(--stack-ink)}
+  a:hover{text-decoration-thickness:2px}
+  /* Long identifiers in the layers table (compile_commands.json) held the table wide on a phone and
+     squeezed the description to one word per line. */
+  @media (max-width:640px){ td code{white-space:normal;overflow-wrap:anywhere} }
+  .credit{margin-top:22px;padding:18px 20px;border-left:4px solid var(--stack);background:var(--panel);
+    border-radius:0 10px 10px 0}
+  .credit p{margin:0;color:var(--ink-2)}
+  .credit a{color:var(--stack-ink);font-weight:600}
+</style>
+<style>
   .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:4px 0 0}
   .cta .btn{display:inline-block;background:var(--stack);color:#fff;font-weight:600;text-decoration:none;
     padding:12px 20px;border-radius:8px}
@@ -436,11 +449,12 @@
         <tr><td class="num">4</td><td>Instruction files with a routing table</td><td style="white-space:normal">Which layer to ask, so the agent stops grepping out of habit</td></tr>
         <tr><td class="num">3</td><td>Engine API store</td><td style="white-space:normal">What a module declares, and where it is available, for targets you never built</td></tr>
         <tr><td class="num">2</td><td>Reflection dump, one file per class and Blueprint</td><td style="white-space:normal">Effective flags, replication conditions, Blueprint callers</td></tr>
-        <tr><td class="num">1</td><td>Symbol index: clangd, fronted by Serena</td><td style="white-space:normal">Definitions and references resolved by a real C++ front end</td></tr>
+        <tr><td class="num">1</td><td>Symbol index: clangd, fronted by <a href="https://github.com/oraios/serena">Serena</a></td><td style="white-space:normal">Definitions and references resolved by a real C++ front end</td></tr>
         <tr><td class="num">0</td><td><code>compile_commands.json</code></td><td style="white-space:normal">Nothing on its own, but clangd cannot parse Unreal source without it</td></tr>
       </tbody>
     </table>
   </div>
+  <div class="credit"><p><strong>Layer 1 is built on <a href="https://github.com/oraios/serena">Serena</a>, by Oraios AI.</strong> It&rsquo;s the semantic code search the agent uses to find definitions and references, driving <a href="https://github.com/llvm/llvm-project">clangd</a> for the C++ parsing, and the agent called it 132 times across 39 of the questions in this run, so part of this result is theirs. It&rsquo;s installed separately, from <a href="https://github.com/Volksie/serena">a fork</a> whose patches are meant to go upstream, under Serena&rsquo;s own licence: GPL-3.0-or-later for the application from v2 onwards, and MIT for its <code>solidlsp</code> component. Thank you to the Serena team.</p></div>
 </section>
 
 <section>
@@ -455,6 +469,7 @@
   <p><strong>How this was measured.</strong> Both agents used the same model (Claude Opus) and answered the same 191 questions about Unreal Engine 5.8.3 and three projects: Epic&rsquo;s Lyra sample game, an open-source plugin and a small seed project. The agent without the stack ran in a clean copy of the tree holding only source, config and content, with five built-in tools and nothing we built. The rule behind that is the one part of this that is not a judgement call: <strong>the baseline gets nothing we built, and the codebase it is asked about is not altered.</strong></p>
   <p>Every answer was graded against a key three times, independently, and the majority grade is used. Before publication, every key that marked the stack&rsquo;s answer down was re-derived from the source code and the engine database. Eleven turned out to be wrong, the figures here use the corrected keys, and the corrections raised both agents&rsquo; scores. 139 of the questions are everyday engineering questions; 52 were written specifically to need what the stack holds, and they are reported separately rather than folded into the headline.</p>
   <p>Semantic code search sits on the stack&rsquo;s side of that line, so these numbers answer &ldquo;is this worth building&rdquo;, not &ldquo;is it worth adding to a codebase that already has good semantic search&rdquo;. That needs a third arm, which has not been run.</p>
+  <p>Built on <a href="https://github.com/oraios/serena">Serena</a> by Oraios AI and clangd from the <a href="https://github.com/llvm/llvm-project">LLVM project</a>, both installed separately under their own licences. Set in IBM Plex. Full notices: <a href="https://github.com/Volksie/UEAgentAccelerator/blob/main/NOTICE.md">NOTICE.md</a>.</p>
   <p>The stack, the benchmark and the full result with its caveats: <a href="https://github.com/Volksie/UEAgentAccelerator">github.com/Volksie/UEAgentAccelerator</a>.</p>
 </footer>
 

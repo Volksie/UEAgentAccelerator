@@ -26,7 +26,8 @@ A layered memory stack for running coding agents on an Unreal Engine codebase.<b
   <a href="#install">Install</a> &middot;
   <a href="#what-you-get">What you get</a> &middot;
   <a href="#routing">Routing</a> &middot;
-  <a href="#docs">Docs</a>
+  <a href="#docs">Docs</a> &middot;
+  <a href="#built-on">Built on Serena</a>
 </p>
 
 ---
@@ -84,7 +85,7 @@ On 52 harder questions the stack's median time barely moves (28.6 s against 160.
 | **4** | Curated instruction files, *CLAUDE.md* and *.claude/rules/\*.md* | Templates in here, you adapt them |
 | **3** | Engine API store: what is declared, for targets you never built | In here, opt-in |
 | **2** | The reflection dump, one Markdown file per class | The plugin in here |
-| **1** | Symbol index, clangd fronted by Serena | Installed separately |
+| **1** | Symbol index, clangd fronted by [Serena](https://github.com/oraios/serena) | Installed separately |
 | **0** | `compile_commands.json` | UnrealBuildTool, script in here |
 
 Each one exists because the layer below it cannot answer a particular kind of question. Taking them from the bottom:
@@ -281,8 +282,23 @@ Layers 2, 3, 4 and 5 are what we use daily and what the benchmark measures. Laye
 
 Layer 3 has three parts: the UHT exporter under *ue-plugin/UEAgentAccelerator/Source/UEAgentAcceleratorUht*, a store that merges what it emits with on-disk descriptors and the Layer 2 artefacts, and a six-tool MCP server over the result — both of the latter in *plugins/ue-memory-stack/engine-api/*, Python, no dependencies. It answers what the other layers structurally cannot: whether a module is available on a console you have never built, and what a comment three lines into a `.cpp` says. The exporter runs only when asked (`-AgentMemoryApi`), and the database is yours to build and is not in this repository. See *plugins/ue-memory-stack/docs/08-layer3-engine-api.md*.
 
+## Built on
+
+Layer 1 is **[Serena](https://github.com/oraios/serena)**, by Oraios AI. It's the semantic code search the agent uses to find
+definitions and references. It was part of the stack arm in the benchmark on this page, and the agent
+called it 132 times across 39 of the questions, so part of that result is theirs. We don't ship it in this repository. The installer installs
+[our fork](https://github.com/Volksie/serena), whose patches are for Unreal-sized trees and are meant to
+go upstream (one already has), and what it installs is Serena under Serena's licence:
+**GPL-3.0-or-later** for the application from v2 onwards, and MIT for its `solidlsp` component. Thank
+you to the Serena team.
+
+Serena drives **clangd**, from the [LLVM project](https://github.com/llvm/llvm-project), which does the
+actual C++ parsing. Three ideas in the engine API store come from
+[code-review-graph](https://github.com/tirth8205/code-review-graph) by Tirth Patel. [NOTICE.md](NOTICE.md)
+has the full list and what each licence means for you.
+
 ## Licence
 
-MIT, see [LICENSE](LICENSE). You need Unreal Engine, which you licence from Epic yourself, and Layer 1 needs tools we don't ship. [NOTICE.md](NOTICE.md) has the details.
+MIT, see [LICENSE](LICENSE). You need Unreal Engine, which you licence from Epic yourself, and Layer 1 needs Serena and clangd, which we don't ship (see *Built on* above). [NOTICE.md](NOTICE.md) has the details.
 
 Unreal and Unreal Engine are trademarks of Epic Games, Inc. This project isn't affiliated with or endorsed by Epic Games.

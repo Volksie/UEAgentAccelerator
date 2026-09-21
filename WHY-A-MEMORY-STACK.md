@@ -116,7 +116,7 @@ Six layers, each there because the one below it can't answer a particular kind o
 | **4** | Instruction files with a routing table | Which layer to ask, so the agent stops grepping out of habit |
 | **3** | Engine API store | What a module declares, and where it's available, for targets you never built |
 | **2** | The reflection dump, one file per class and Blueprint | Effective flags, replication conditions, Blueprint callers |
-| **1** | Symbol index, clangd fronted by Serena | Definitions and references resolved by a real C++ front end |
+| **1** | Symbol index, clangd fronted by [Serena](https://github.com/oraios/serena) | Definitions and references resolved by a real C++ front end |
 | **0** | `compile_commands.json` | Nothing on its own, but clangd can't parse Unreal source without it |
 
 <br>
@@ -134,6 +134,10 @@ Questions about where something is defined get answered quickly either way, beca
 Both agents used the same model on the same 191 questions. The one without the stack ran in a clean copy of the tree holding only source, config and content, with five built-in tools and nothing we built: no language server, no MCP server, no rules files. The rule behind that is the one part of this that isn't a judgement call, so it's worth stealing: **the baseline gets nothing we built, and the codebase it's asked about isn't altered.**
 
 Every answer was graded against a key three times, independently, and the majority grade is what's shown. Before publishing, every key that marked the stack down was re-derived from source, and eleven turned out to be wrong. The figures here use the corrected keys, and the corrections raised both agents' scores.
+
+The stack arm's semantic code search is [Serena](https://github.com/oraios/serena), by Oraios AI, driving clangd. The agent called it 132 times
+across 39 of the questions, so part of this result is theirs. It's installed separately under its own licence; the README's *Built on*
+section has the details.
 
 Semantic code search sits on the stack's side of that line, so these numbers answer "is this worth building", not "is it worth adding to a codebase that already has good semantic search". Answering that needs a third arm, and we haven't run it.
 
