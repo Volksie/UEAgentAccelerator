@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Agents Need a Memory Stack</title>
+<meta name="description" content="The same model, the same Unreal Engine questions, with and without a memory stack. On 139 everyday questions: 95% correct against 68%, none wrong against 26, in a third of the time.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why agents need a memory stack">
+<meta property="og:description" content="The same model, the same Unreal Engine questions, with and without a memory stack. On 139 everyday questions: 95% correct against 68%, none wrong against 26, in a third of the time.">
+<meta property="og:url" content="https://volksie.github.io/UEAgentAccelerator/">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://volksie.github.io/UEAgentAccelerator/">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+  :root{
+    --ground:#f4f6f8;
+    --panel:#ffffff;
+    --panel-2:#eef2f5;
+    --ink:#121b24;
+    --ink-2:#4a5866;
+    --ink-3:#77848f;
+    --rule:#d7dee5;
+    --rule-2:#c3ccd5;
+    --base:#98a2ae;
+    --stack:#0f766a;
+    --stack-soft:#d7ebe7;
+    --stack-ink:#0b5a51;
+    --maxw:980px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e151c;
+      --panel:#151f28;
+      --panel-2:#1b2731;
+      --ink:#e4ecf2;
+      --ink-2:#a9b7c4;
+      --ink-3:#7d8b98;
+      --rule:#2a3846;
+      --rule-2:#3a4a59;
+      --base:#6f7a86;
+      --stack:#43b8a5;
+      --stack-soft:#17322e;
+      --stack-ink:#7fd6c7;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e151c;
+    --panel:#151f28;
+    --panel-2:#1b2731;
+    --ink:#e4ecf2;
+    --ink-2:#a9b7c4;
+    --ink-3:#7d8b98;
+    --rule:#2a3846;
+    --rule-2:#3a4a59;
+    --base:#6f7a86;
+    --stack:#43b8a5;
+    --stack-soft:#17322e;
+    --stack-ink:#7fd6c7;
+  }
+
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:24px;padding-block:48px 88px;}
+  @media (max-width:520px){ .wrap{padding-inline:16px;padding-block:32px 64px;} }
+  h1,h2,h3{font-family:"IBM Plex Serif",Georgia,"Times New Roman",serif;font-weight:600;text-wrap:balance;line-height:1.2;margin:0;}
+  h1{font-size:clamp(2rem,5vw,3.1rem);letter-spacing:-0.02em;max-width:18ch;}
+  h2{font-size:clamp(1.35rem,3vw,1.7rem);letter-spacing:-0.01em;}
+  h3{font-size:1.05rem;}
+  p{margin:0;max-width:64ch;}
+  code,.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums;}
+  code{font-size:.86em;background:var(--panel-2);padding:1px 5px;border-radius:3px;}
+  .eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);}
+  .stack-word{color:var(--stack);}
+
+  /* hero */
+  .hero{display:grid;gap:18px;padding-bottom:36px;border-bottom:2px solid var(--ink);}
+  .lede{font-size:1.12rem;color:var(--ink-2);max-width:60ch;}
+
+  /* headline figures */
+  .figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:34px;}
+  .fig{background:var(--panel);padding:20px 20px 18px;display:grid;gap:8px;align-content:start;}
+  .fig .big{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:2.2rem;font-weight:600;color:var(--stack);line-height:1;}
+  .fig .what{font-weight:600;font-size:.96rem;}
+  .fig .vs{font-size:.86rem;color:var(--ink-2);}
+  .fig .vs b{font-family:"IBM Plex Mono",monospace;font-weight:500;color:var(--ink);}
+
+  section{margin-top:64px;display:grid;gap:18px;}
+  .sechead{display:grid;gap:8px;}
+  .sechead p{color:var(--ink-2);}
+
+  /* comparison rows */
+  .duel{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+  .duel-row{background:var(--panel);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1fr);gap:18px;padding:16px 18px;align-items:start;}
+  .duel-row.head{background:var(--panel-2);padding-block:9px;}
+  .duel-row.head span{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);font-weight:600;}
+  .duel-row .q{font-size:.95rem;}
+  .duel-row .q .id{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-3);display:block;margin-bottom:3px;}
+  .side{display:grid;gap:3px;font-size:.86rem;color:var(--ink-2);}
+  .side .t{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:1.15rem;font-weight:600;color:var(--ink);}
+  .side.stack .t{color:var(--stack);}
+  .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:1px 7px;border-radius:999px;width:max-content;}
+  .pill.ok{background:var(--stack-soft);color:var(--stack-ink);}
+  .pill.bad{background:var(--panel-2);color:var(--ink-2);border:1px solid var(--rule-2);}
+  @media (max-width:640px){
+    .duel-row{grid-template-columns:1fr 1fr;}
+    .duel-row .q{grid-column:1 / -1;}
+    .duel-row.head span:first-child{display:none;}
+  }
+
+  /* chart */
+  .chart{background:var(--panel);border:1px solid var(--rule);padding:14px 10px 6px;overflow-x:auto;}
+  .chart svg{display:block;min-width:600px;}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.84rem;color:var(--ink-2);}
+  .legend i{display:inline-block;width:12px;height:10px;margin-right:6px;vertical-align:baseline;}
+  figcaption{font-size:.84rem;color:var(--ink-3);max-width:66ch;}
+
+  /* cost table */
+  .scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--panel);}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  th{background:var(--panel-2);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);}
+  td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+  td.win{color:var(--stack);font-weight:600;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  /* what's inside */
+  .parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:22px;}
+  .part{display:grid;gap:6px;align-content:start;border-top:2px solid var(--stack);padding-top:12px;}
+  .part p{font-size:.92rem;color:var(--ink-2);}
+  .part .ex{font-size:.82rem;color:var(--ink-3);}
+
+  .blind{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);}
+  .blind div{background:var(--panel);padding:16px 18px;display:grid;gap:6px;align-content:start;}
+  .blind p{font-size:.92rem;color:var(--ink-2);}
+
+  footer{margin-top:64px;border-top:1px solid var(--rule);padding-top:20px;display:grid;gap:10px;font-size:.86rem;color:var(--ink-3);}
+  footer p{max-width:78ch;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Measured 20 September 2026 · Unreal Engine 5.8.3 · three real projects · two agents</p>
+  <h1>An agent with a memory stack is right more often, and it gets there <span class="stack-word">faster</span>.</h1>
+  <p class="lede">We gave the same model the same questions about a large Unreal Engine codebase twice. The first time it had only shell and text search. The second time it also had a memory stack: a routing guide, pre-generated knowledge about every class and Blueprint, an engine-API database and semantic code search. The stack arm answered more questions correctly, got none outright wrong, and used a fraction of the time and tokens.</p>
+
+  <div class="figures">
+    <div class="fig">
+      <span class="big">95%</span>
+      <span class="what">correct with the stack</span>
+      <span class="vs">against <b>68%</b> without it, on 139 everyday engineering questions</span>
+    </div>
+    <div class="fig">
+      <span class="big">0</span>
+      <span class="what">answers outright wrong</span>
+      <span class="vs">on the same 139 questions, against <b>26</b> wrong answers without it</span>
+    </div>
+    <div class="fig">
+      <span class="big">3&times;</span>
+      <span class="what">less total time</span>
+      <span class="vs"><b>1.2 h</b> against <b>3.6 h</b> for the same 139 questions</span>
+    </div>
+    <div class="fig">
+      <span class="big">2.2&times;</span>
+      <span class="what">fewer input tokens</span>
+      <span class="vs"><b>93k</b> per question against <b>200k</b> on the same 139, standing context included</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="sechead">
+    <h2>The difference is largest on the questions that matter most</h2>
+    <p>The bigger and less textual the question, the wider the gap. These are real questions from the run, with each agent's time and whether its answer was right.</p>
+  </div>
+  <div class="duel" role="table" aria-label="Five questions, answered with and without the memory stack">
+    <div class="duel-row head" role="row"><span>Question</span><span>Without the stack</span><span>With the stack</span></div>
+
+    <div class="duel-row" role="row">
+      <div class="q"><span class="id">K20 · Blueprint calls</span>Which Blueprint is called into by other Blueprints most often, and how many Blueprints have callers at all?</div>
+      <div class="side"><span class="t">865 s</span>110 turns · 4.4M tokens<span class="pill bad">wrong</span></div>
+      <div class="side stack"><span class="t">19 s</span>7 turns · 101k tokens<span class="pill ok">right</span></div>
+    </div>
+
+    <div class="duel-row" role="row">
+      <div class="q"><span class="id">K5 · networking</span>Which custom events in Lyra's Blueprints are RPCs, and which of those are reliable?</div>
+      <div class="side"><span class="t">900 s</span>ran out of time, no answer<span class="pill bad">no answer</span></div>
+      <div class="side stack"><span class="t">20 s</span>7 turns · 100k tokens<span class="pill ok">right</span></div>
+    </div>
+
+    <div class="duel-row" role="row">
+      <div class="q"><span class="id">Q014 · who reads a value</span>Which Blueprint reads <code>NumBotsToCreate</code>, and how many nodes in it do so?</div>
+      <div class="side"><span class="t">828 s</span>53 turns · 1.0M tokens<span class="pill ok">right</span></div>
+      <div class="side stack"><span class="t">14 s</span>3 turns · 48k tokens<span class="pill ok">right</span></div>
+    </div>
+
+    <div class="duel-row" role="row">
+      <div class="q"><span class="id">Q072 · rename safety</span>If I rename <code>OnlineMode</code>, which Blueprint graphs break? The complete list, C++ and Blueprint.</div>
+      <div class="side"><span class="t">825 s</span>62 turns · 2.9M tokens<span class="pill ok">right</span></div>
+      <div class="side stack"><span class="t">40 s</span>9 turns · 123k tokens<span class="pill ok">right</span></div>
+    </div>
+
+    <div class="duel-row" role="row">
+      <div class="q"><span class="id">Q098 · platform support</span>How many plugins in this engine have a Runtime module that isn&rsquo;t available on a particular console?</div>
+      <div class="side"><span class="t">wrong</span>on all three judging passes<span class="pill bad">wrong</span></div>
+      <div class="side stack"><span class="t">right</span>with no console SDK installed<span class="pill ok">right</span></div>
+    </div>
+  </div>
+  <p style="color:var(--ink-2)">Even where both agents get there, as on Q014 and Q072, the one without the stack spends about 14 minutes and more than a million tokens rebuilding from raw bytes what the stack already holds. That cost comes back on every question like it.</p>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>It is better in every area we measured</h2>
+    <p>The questions fall into eleven kinds of engineering question. With the stack the agent scores higher in all eleven, and it reaches 100% in three of them.</p>
+  </div>
+  <figure style="margin:0;display:grid;gap:10px">
+    <div class="legend"><span><i style="background:var(--base)"></i>Without the stack</span><span><i style="background:var(--stack)"></i>With the stack</span></div>
+    <div class="chart">
+    <svg viewBox="0 0 800 432" width="100%" role="img" aria-label="Correctness by area, without and with the memory stack. The stack is higher in all eleven areas.">
+      <line x1="250" y1="12" x2="250" y2="404" stroke="var(--rule-2)" stroke-width="1"/>
+      <line x1="370" y1="12" x2="370" y2="404" stroke="var(--rule)" stroke-dasharray="2 3"/>
+      <line x1="490" y1="12" x2="490" y2="404" stroke="var(--rule)" stroke-dasharray="2 3"/>
+      <line x1="610" y1="12" x2="610" y2="404" stroke="var(--rule)" stroke-dasharray="2 3"/>
+      <line x1="730" y1="12" x2="730" y2="404" stroke="var(--rule)" stroke-dasharray="2 3"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">
+        <text x="250" y="422">0%</text><text x="370" y="422">25%</text><text x="490" y="422">50%</text><text x="610" y="422">75%</text><text x="730" y="422">100%</text>
+      </g>
+
+      <g font-size="11.5" fill="var(--ink)">
+        <text x="8" y="31">Engine API and platform support</text>
+        <text x="8" y="67">Blueprint internals</text>
+        <text x="8" y="103">Build, tooling and procedure</text>
+        <text x="8" y="139">What makes things expensive</text>
+        <text x="8" y="175">Inheritance and ancestry</text>
+        <text x="8" y="211">What comments and docs say</text>
+        <text x="8" y="247">Reflection and replication</text>
+        <text x="8" y="283">What breaks if I change this</text>
+        <text x="8" y="319">Where things are defined</text>
+        <text x="8" y="355">Effective flags and writers</text>
+        <text x="8" y="391">Trick questions</text>
+      </g>
+
+      <g fill="var(--base)">
+        <rect x="250" y="19"  width="96"    height="10"/>
+        <rect x="250" y="55"  width="272.6" height="10"/>
+        <rect x="250" y="91"  width="248.2" height="10"/>
+        <rect x="250" y="127" width="300"   height="10"/>
+        <rect x="250" y="163" width="303.4" height="10"/>
+        <rect x="250" y="199" width="336"   height="10"/>
+        <rect x="250" y="235" width="384"   height="10"/>
+        <rect x="250" y="271" width="392.6" height="10"/>
+        <rect x="250" y="307" width="372"   height="10"/>
+        <rect x="250" y="343" width="416.2" height="10"/>
+        <rect x="250" y="379" width="456"   height="10"/>
+      </g>
+      <g fill="var(--stack)">
+        <rect x="250" y="31"  width="480"   height="10"/>
+        <rect x="250" y="67"  width="480"   height="10"/>
+        <rect x="250" y="103" width="456"   height="10"/>
+        <rect x="250" y="139" width="450.2" height="10"/>
+        <rect x="250" y="175" width="442.1" height="10"/>
+        <rect x="250" y="211" width="447.8" height="10"/>
+        <rect x="250" y="247" width="468"   height="10"/>
+        <rect x="250" y="283" width="458.4" height="10"/>
+        <rect x="250" y="319" width="432"   height="10"/>
+        <rect x="250" y="355" width="447.8" height="10"/>
+        <rect x="250" y="391" width="480"   height="10"/>
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-3)">
+        <text x="351" y="28">20%</text>
+        <text x="527.6" y="64">57%</text>
+        <text x="503.2" y="100">52%</text>
+        <text x="555" y="136">62%</text>
+        <text x="558.4" y="172">63%</text>
+        <text x="591" y="208">70%</text>
+        <text x="639" y="244">80%</text>
+        <text x="647.6" y="280">82%</text>
+        <text x="627" y="316">78%</text>
+        <text x="671.2" y="352">87%</text>
+        <text x="711" y="388">95%</text>
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="600" fill="var(--stack)">
+        <text x="736" y="40">100%</text>
+        <text x="736" y="76">100%</text>
+        <text x="712" y="112">95%</text>
+        <text x="706.2" y="148">94%</text>
+        <text x="698.1" y="184">92%</text>
+        <text x="703.8" y="220">93%</text>
+        <text x="724" y="256">98%</text>
+        <text x="714.4" y="292">95%</text>
+        <text x="688" y="328">90%</text>
+        <text x="703.8" y="364">93%</text>
+        <text x="736" y="400">100%</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Correctness with partial credit: a fully right answer scores 1 and a partly right one 0.5. Every answer was graded three times, and the majority grade is shown. Groups have 8 to 30 questions each. Blueprint internals, and most of inheritance and effective flags, are drawn from the 52 harder questions, so read those three bars as the harder set.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>Why a plain search misses what the stack knows</h2>
+    <p>A large Unreal project keeps much of its truth where text search cannot reach. The stack reads those places ahead of time, and serves the result as a query.</p>
+  </div>
+  <div class="blind">
+    <div>
+      <h3>Blueprints are binary</h3>
+      <p>Part of any caller list lives in <code>.uasset</code> graphs, which text search skips without warning. The stack walks every Blueprint graph ahead of time, so "who calls this?" includes the Blueprint callers that no C++ tool can see.</p>
+    </div>
+    <div>
+      <h3>The header is not the whole story</h3>
+      <p>UnrealHeaderTool adds flags that are never written in the source. A <code>const</code> <code>BlueprintCallable</code> quietly becomes <code>BlueprintPure</code>. The stack records the effective flags, not only the ones in the header.</p>
+    </div>
+    <div>
+      <h3>Some answers need no code at all</h3>
+      <p>Platform support is resolved from plugin descriptors, using the engine's own rules. That is how the stack answers for a console on a machine with no console SDK installed.</p>
+    </div>
+    <div>
+      <h3>Comments can be wrong</h3>
+      <p>The stack sends the agent to the function body as well as to the comment above it. One benchmark question turns on a header comment that describes behaviour the code does not have. Reading both is how that gets caught.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>It stays fast when the questions get hard</h2>
+    <p>Without the stack, time grows with the difficulty of the question. With it, the time barely changes. On 52 harder questions, written to need exactly what the stack holds, the stack took about as long as it did on everyday ones.</p>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th class="num">Without the stack</th><th class="num">With the stack</th><th class="num">Difference</th></tr></thead>
+      <tbody>
+        <tr><td><strong>139 everyday questions</strong></td><td></td><td></td><td></td></tr>
+        <tr><td>Correct (partial credit)</td><td class="num">68.3%</td><td class="num win">95.0%</td><td class="num">+26.6 pts</td></tr>
+        <tr><td>Median time per question</td><td class="num">44.1 s</td><td class="num win">27.6 s</td><td class="num">1.6&times; faster</td></tr>
+        <tr><td>Total time</td><td class="num">3.59 h</td><td class="num win">1.21 h</td><td class="num">3.0&times; faster</td></tr>
+        <tr><td>Input tokens</td><td class="num">27.8M</td><td class="num win">12.9M</td><td class="num">2.2&times; fewer</td></tr>
+        <tr><td>Model calls (turns)</td><td class="num">1,841</td><td class="num win">867</td><td class="num">2.1&times; fewer</td></tr>
+        <tr><td>Tool calls</td><td class="num">1,702</td><td class="num win">728</td><td class="num">2.3&times; fewer</td></tr>
+        <tr><td>Answers outright wrong</td><td class="num">26</td><td class="num win">0</td><td class="num"></td></tr>
+        <tr><td><strong>52 harder questions</strong></td><td></td><td></td><td></td></tr>
+        <tr><td>Correct (partial credit)</td><td class="num">66.3%</td><td class="num win">96.2%</td><td class="num">+29.8 pts</td></tr>
+        <tr><td>Median time per question</td><td class="num">160.8 s</td><td class="num win">28.6 s</td><td class="num">5.6&times; faster</td></tr>
+        <tr><td>Total time</td><td class="num">3.38 h</td><td class="num win">0.54 h</td><td class="num">6.3&times; faster</td></tr>
+        <tr><td>Model calls (turns)</td><td class="num">1,413</td><td class="num win">401</td><td class="num">3.5&times; fewer</td></tr>
+        <tr><td>Tool calls</td><td class="num">1,361</td><td class="num win">349</td><td class="num">3.9&times; fewer</td></tr>
+        <tr><td>Answers outright wrong</td><td class="num">11</td><td class="num win">0</td><td class="num"></td></tr>
+        <tr><td>Questions that ran out of time</td><td class="num">2</td><td class="num win">0</td><td class="num"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figcaption>The stack carries a larger fixed context per session (14,861 tokens against 7,615), and it still costs less on every measure, because it needs far fewer calls to reach an answer. All figures include that fixed cost.</figcaption>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>What is in the stack</h2>
+    <p>Six layers, each there because the one below it cannot answer a particular kind of question. Any one can fail without sinking the rest.</p>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Layer</th><th>What it is</th><th>What only it can answer</th></tr></thead>
+      <tbody>
+        <tr><td class="num">5</td><td>Design docs</td><td style="white-space:normal">Why a system is built the way it is</td></tr>
+        <tr><td class="num">4</td><td>Instruction files with a routing table</td><td style="white-space:normal">Which layer to ask, so the agent stops grepping out of habit</td></tr>
+        <tr><td class="num">3</td><td>Engine API store</td><td style="white-space:normal">What a module declares, and where it is available, for targets you never built</td></tr>
+        <tr><td class="num">2</td><td>Reflection dump, one file per class and Blueprint</td><td style="white-space:normal">Effective flags, replication conditions, Blueprint callers</td></tr>
+        <tr><td class="num">1</td><td>Symbol index: clangd, fronted by Serena</td><td style="white-space:normal">Definitions and references resolved by a real C++ front end</td></tr>
+        <tr><td class="num">0</td><td><code>compile_commands.json</code></td><td style="white-space:normal">Nothing on its own, but clangd cannot parse Unreal source without it</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>Where plain search does as well</h2>
+  </div>
+  <p style="color:var(--ink-2)">Questions about where something is defined get answered quickly either way, because the definition is usually one grep away. The stack is still more accurate there (78% to 90%), but it takes a little longer, so on that kind of question the win is accuracy rather than speed. And &ldquo;why is this built this way&rdquo; still needs someone to write the design docs: the stack scores well on it only because somebody did.</p>
+</section>
+
+<footer>
+  <p><strong>How this was measured.</strong> Both agents used the same model (Claude Opus) and answered the same 191 questions about Unreal Engine 5.8.3 and three projects: Epic&rsquo;s Lyra sample game, an open-source plugin and a small seed project. The agent without the stack ran in a clean copy of the tree holding only source, config and content, with five built-in tools and nothing we built. The rule behind that is the one part of this that is not a judgement call: <strong>the baseline gets nothing we built, and the codebase it is asked about is not altered.</strong></p>
+  <p>Every answer was graded against a key three times, independently, and the majority grade is used. Before publication, every key that marked the stack&rsquo;s answer down was re-derived from the source code and the engine database. Eleven turned out to be wrong, the figures here use the corrected keys, and the corrections raised both agents&rsquo; scores. 139 of the questions are everyday engineering questions; 52 were written specifically to need what the stack holds, and they are reported separately rather than folded into the headline.</p>
+  <p>Semantic code search sits on the stack&rsquo;s side of that line, so these numbers answer &ldquo;is this worth building&rdquo;, not &ldquo;is it worth adding to a codebase that already has good semantic search&rdquo;. That needs a third arm, which has not been run.</p>
+  <p>The stack, the benchmark and the full result with its caveats: <a href="https://github.com/Volksie/UEAgentAccelerator">github.com/Volksie/UEAgentAccelerator</a>.</p>
+</footer>
+
+</div>
+</body>
+</html>
