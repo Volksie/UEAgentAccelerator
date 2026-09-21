@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 478" width="880" height="478" role="img" aria-label="Correct answers by kind of question, with partial credit. The stack scores higher in all eleven, and reaches 100% in three.">
+  <title>Correct answers by kind of question, with partial credit. The stack scores higher in all eleven, and reaches 100% in three.</title>
+  <rect x="0.5" y="0.5" width="879" height="477" fill="#ffffff" stroke="#d7dee5"/>
+  <rect x="270" y="16" width="12" height="10" fill="#98a2ae"/>
+  <text x="288" y="25" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">Without the stack</text>
+  <rect x="420" y="16" width="12" height="10" fill="#0f766a"/>
+  <text x="438" y="25" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">With the stack</text>
+  <line x1="270.0" y1="42" x2="270.0" y2="444" stroke="#c3ccd5"/>
+  <text x="270.0" y="464" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">0%</text>
+  <line x1="400.0" y1="42" x2="400.0" y2="444" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="400.0" y="464" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">25%</text>
+  <line x1="530.0" y1="42" x2="530.0" y2="444" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="530.0" y="464" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">50%</text>
+  <line x1="660.0" y1="42" x2="660.0" y2="444" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="660.0" y="464" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">75%</text>
+  <line x1="790.0" y1="42" x2="790.0" y2="444" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="790.0" y="464" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">100%</text>
+  <text x="20" y="67" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Engine API and platform support</text>
+  <rect x="270" y="53" width="104.0" height="11" fill="#98a2ae"/>
+  <text x="380.0" y="63" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">20%</text>
+  <rect x="270" y="66" width="520.0" height="11" fill="#0f766a"/>
+  <text x="796.0" y="76" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">100%</text>
+  <text x="20" y="103" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Blueprint internals</text>
+  <rect x="270" y="89" width="295.5" height="11" fill="#98a2ae"/>
+  <text x="571.5" y="99" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">57%</text>
+  <rect x="270" y="102" width="520.0" height="11" fill="#0f766a"/>
+  <text x="796.0" y="112" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">100%</text>
+  <text x="20" y="139" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Build, tooling and procedure</text>
+  <rect x="270" y="125" width="268.7" height="11" fill="#98a2ae"/>
+  <text x="544.7" y="135" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">52%</text>
+  <rect x="270" y="138" width="494.0" height="11" fill="#0f766a"/>
+  <text x="770.0" y="148" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">95%</text>
+  <text x="20" y="175" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">What makes things expensive</text>
+  <rect x="270" y="161" width="325.0" height="11" fill="#98a2ae"/>
+  <text x="601.0" y="171" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">62%</text>
+  <rect x="270" y="174" width="487.5" height="11" fill="#0f766a"/>
+  <text x="763.5" y="184" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">94%</text>
+  <text x="20" y="211" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Inheritance and ancestry</text>
+  <rect x="270" y="197" width="328.4" height="11" fill="#98a2ae"/>
+  <text x="604.4" y="207" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">63%</text>
+  <rect x="270" y="210" width="478.9" height="11" fill="#0f766a"/>
+  <text x="754.9" y="220" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">92%</text>
+  <text x="20" y="247" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">What comments and docs say</text>
+  <rect x="270" y="233" width="364.0" height="11" fill="#98a2ae"/>
+  <text x="640.0" y="243" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">70%</text>
+  <rect x="270" y="246" width="485.3" height="11" fill="#0f766a"/>
+  <text x="761.3" y="256" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">93%</text>
+  <text x="20" y="283" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Reflection and replication</text>
+  <rect x="270" y="269" width="416.0" height="11" fill="#98a2ae"/>
+  <text x="692.0" y="279" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">80%</text>
+  <rect x="270" y="282" width="507.0" height="11" fill="#0f766a"/>
+  <text x="783.0" y="292" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">98%</text>
+  <text x="20" y="319" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">What breaks if I change this</text>
+  <rect x="270" y="305" width="425.5" height="11" fill="#98a2ae"/>
+  <text x="701.5" y="315" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">82%</text>
+  <rect x="270" y="318" width="496.4" height="11" fill="#0f766a"/>
+  <text x="772.4" y="328" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">95%</text>
+  <text x="20" y="355" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Where things are defined</text>
+  <rect x="270" y="341" width="403.0" height="11" fill="#98a2ae"/>
+  <text x="679.0" y="351" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">78%</text>
+  <rect x="270" y="354" width="468.0" height="11" fill="#0f766a"/>
+  <text x="744.0" y="364" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">90%</text>
+  <text x="20" y="391" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Effective flags and writers</text>
+  <rect x="270" y="377" width="450.7" height="11" fill="#98a2ae"/>
+  <text x="726.7" y="387" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">87%</text>
+  <rect x="270" y="390" width="485.3" height="11" fill="#0f766a"/>
+  <text x="761.3" y="400" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">93%</text>
+  <text x="20" y="427" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="13.5" fill="#121b24">Trick questions</text>
+  <rect x="270" y="413" width="494.0" height="11" fill="#98a2ae"/>
+  <text x="770.0" y="423" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f">95%</text>
+  <rect x="270" y="426" width="520.0" height="11" fill="#0f766a"/>
+  <text x="796.0" y="436" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#0f766a" font-weight="600">100%</text>
+</svg>

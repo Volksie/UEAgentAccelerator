@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 242" width="880" height="242" role="img" aria-label="Median seconds per question. Everyday questions: 44.1 without the stack, 27.6 with it. Harder questions: 160.8 without, 28.6 with.">
+  <title>Median seconds per question. Everyday questions: 44.1 without the stack, 27.6 with it. Harder questions: 160.8 without, 28.6 with.</title>
+  <rect x="0.5" y="0.5" width="879" height="241" fill="#ffffff" stroke="#d7dee5"/>
+  <rect x="200" y="16" width="12" height="10" fill="#98a2ae"/>
+  <text x="218" y="25" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">Without the stack</text>
+  <rect x="350" y="16" width="12" height="10" fill="#0f766a"/>
+  <text x="368" y="25" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">With the stack</text>
+  <line x1="200.0" y1="42" x2="200.0" y2="208" stroke="#c3ccd5"/>
+  <text x="200.0" y="228" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">0 s</text>
+  <line x1="355.0" y1="42" x2="355.0" y2="208" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="355.0" y="228" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">50 s</text>
+  <line x1="510.0" y1="42" x2="510.0" y2="208" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="510.0" y="228" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">100 s</text>
+  <line x1="665.0" y1="42" x2="665.0" y2="208" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="665.0" y="228" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">150 s</text>
+  <line x1="820.0" y1="42" x2="820.0" y2="208" stroke="#d7dee5" stroke-dasharray="2 3"/>
+  <text x="820.0" y="228" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11" fill="#77848f" text-anchor="middle">200 s</text>
+  <text x="20" y="78" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="15" fill="#121b24" font-weight="600">139 everyday</text>
+  <text x="20" y="96" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">questions</text>
+  <rect x="200" y="60" width="136.7" height="18" fill="#98a2ae"/>
+  <text x="344.7" y="74" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="12.5" fill="#4a5866">44.1 s</text>
+  <rect x="200" y="84" width="85.6" height="18" fill="#0f766a"/>
+  <text x="293.6" y="98" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="12.5" fill="#0f766a" font-weight="600">27.6 s</text>
+  <text x="20" y="158" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="15" fill="#121b24" font-weight="600">52 harder</text>
+  <text x="20" y="176" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">questions</text>
+  <rect x="200" y="140" width="498.5" height="18" fill="#98a2ae"/>
+  <text x="706.5" y="154" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="12.5" fill="#4a5866">160.8 s</text>
+  <rect x="200" y="164" width="88.7" height="18" fill="#0f766a"/>
+  <text x="296.7" y="178" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="12.5" fill="#0f766a" font-weight="600">28.6 s</text>
+</svg>

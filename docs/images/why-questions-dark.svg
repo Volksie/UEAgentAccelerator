@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 514" width="880" height="514" role="img" aria-label="Five questions from the run. Without the stack: 865, 900, 828, 825 and 116 seconds, with two wrong answers and one timeout. With the stack: 19, 20, 14, 40 and 20 seconds, all right.">
+  <title>Five questions from the run. Without the stack: 865, 900, 828, 825 and 116 seconds, with two wrong answers and one timeout. With the stack: 19, 20, 14, 40 and 20 seconds, all right.</title>
+  <rect x="0.5" y="0.5" width="879" height="513" fill="#151f28" stroke="#2a3846"/>
+  <rect x="1" y="1" width="878" height="33" fill="#1b2731"/>
+  <text x="20" y="22" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="11" fill="#a9b7c4" font-weight="600" letter-spacing="0.9">QUESTION</text>
+  <text x="470" y="22" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="11" fill="#a9b7c4" font-weight="600" letter-spacing="0.9">WITHOUT THE STACK</text>
+  <text x="680" y="22" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="11" fill="#a9b7c4" font-weight="600" letter-spacing="0.9">WITH THE STACK</text>
+  <line x1="1" y1="34" x2="879" y2="34" stroke="#2a3846"/>
+  <text x="20" y="58" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11.5" fill="#7d8b98">K20 · Blueprint calls</text>
+  <text x="20" y="80" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">Which Blueprint is called into by other Blueprints</text>
+  <text x="20" y="99" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">most often, and how many Blueprints have callers at</text>
+  <text x="20" y="118" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">all?</text>
+  <text x="470" y="64" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#e4ecf2" font-weight="600">865 s</text>
+  <text x="470" y="85" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">110 turns · 4.4M tokens</text>
+  <rect x="470" y="96" width="50.0" height="18" rx="9" fill="#1b2731" stroke="#3a4a59"/>
+  <text x="495.0" y="109" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#a9b7c4" font-weight="600" text-anchor="middle" letter-spacing="0.6">WRONG</text>
+  <text x="680" y="64" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#43b8a5" font-weight="600">19 s</text>
+  <text x="680" y="85" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">7 turns · 101k tokens</text>
+  <rect x="680" y="96" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="705.0" y="109" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+  <line x1="1" y1="130" x2="879" y2="130" stroke="#2a3846"/>
+  <text x="20" y="154" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11.5" fill="#7d8b98">K5 · networking</text>
+  <text x="20" y="176" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">Which custom events in Lyra's Blueprints are RPCs,</text>
+  <text x="20" y="195" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">and which of those are reliable?</text>
+  <text x="470" y="160" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#e4ecf2" font-weight="600">900 s</text>
+  <text x="470" y="181" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">ran out of time</text>
+  <rect x="470" y="192" width="78.8" height="18" rx="9" fill="#1b2731" stroke="#3a4a59"/>
+  <text x="509.4" y="205" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#a9b7c4" font-weight="600" text-anchor="middle" letter-spacing="0.6">NO ANSWER</text>
+  <text x="680" y="160" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#43b8a5" font-weight="600">20 s</text>
+  <text x="680" y="181" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">7 turns · 100k tokens</text>
+  <rect x="680" y="192" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="705.0" y="205" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+  <line x1="1" y1="226" x2="879" y2="226" stroke="#2a3846"/>
+  <text x="20" y="250" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11.5" fill="#7d8b98">Q014 · who reads a value</text>
+  <text x="20" y="272" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">Which Blueprint reads <tspan font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' fill="#e4ecf2">NumBotsToCreate</tspan>, and how</text>
+  <text x="20" y="291" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">many nodes in it do so?</text>
+  <text x="470" y="256" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#e4ecf2" font-weight="600">828 s</text>
+  <text x="470" y="277" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">53 turns · 1.0M tokens</text>
+  <rect x="470" y="288" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="495.0" y="301" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+  <text x="680" y="256" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#43b8a5" font-weight="600">14 s</text>
+  <text x="680" y="277" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">3 turns · 48k tokens</text>
+  <rect x="680" y="288" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="705.0" y="301" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+  <line x1="1" y1="322" x2="879" y2="322" stroke="#2a3846"/>
+  <text x="20" y="346" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11.5" fill="#7d8b98">Q072 · rename safety</text>
+  <text x="20" y="368" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">If I rename <tspan font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' fill="#e4ecf2">OnlineMode</tspan>, which Blueprint graphs</text>
+  <text x="20" y="387" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">break? The complete list, C++ and Blueprint.</text>
+  <text x="470" y="352" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#e4ecf2" font-weight="600">825 s</text>
+  <text x="470" y="373" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">62 turns · 2.9M tokens</text>
+  <rect x="470" y="384" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="495.0" y="397" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+  <text x="680" y="352" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#43b8a5" font-weight="600">40 s</text>
+  <text x="680" y="373" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">9 turns · 123k tokens</text>
+  <rect x="680" y="384" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="705.0" y="397" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+  <line x1="1" y1="418" x2="879" y2="418" stroke="#2a3846"/>
+  <text x="20" y="442" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="11.5" fill="#7d8b98">Q098 · platform support</text>
+  <text x="20" y="464" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">How many plugins in this engine have a Runtime</text>
+  <text x="20" y="483" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="14" fill="#e4ecf2">module that isn't available on a particular console?</text>
+  <text x="470" y="448" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#e4ecf2" font-weight="600">116 s</text>
+  <text x="470" y="469" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">20 turns · 217k tokens</text>
+  <rect x="470" y="480" width="50.0" height="18" rx="9" fill="#1b2731" stroke="#3a4a59"/>
+  <text x="495.0" y="493" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#a9b7c4" font-weight="600" text-anchor="middle" letter-spacing="0.6">WRONG</text>
+  <text x="680" y="448" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="19" fill="#43b8a5" font-weight="600">20 s</text>
+  <text x="680" y="469" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#a9b7c4">6 turns · 100k tokens</text>
+  <rect x="680" y="480" width="50.0" height="18" rx="9" fill="#17322e" stroke="none"/>
+  <text x="705.0" y="493" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="10.5" fill="#7fd6c7" font-weight="600" text-anchor="middle" letter-spacing="0.6">RIGHT</text>
+</svg>

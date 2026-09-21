@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 156" width="880" height="156" role="img" aria-label="With the stack, on 139 everyday questions: 95% correct against 68%, 0 answers outright wrong against 26, 3 times less total time, 2.2 times fewer input tokens.">
+  <title>With the stack, on 139 everyday questions: 95% correct against 68%, 0 answers outright wrong against 26, 3 times less total time, 2.2 times fewer input tokens.</title>
+  <rect x="0.5" y="0.5" width="879" height="155" fill="#ffffff" stroke="#d7dee5"/>
+  <text x="20" y="56" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="38" fill="#0f766a" font-weight="600">95%</text>
+  <text x="20" y="86" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="15" fill="#121b24" font-weight="600">correct with the stack</text>
+  <text x="20" y="110" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">against 68% without it, on</text>
+  <text x="20" y="127" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">139 everyday engineering</text>
+  <text x="20" y="144" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">questions</text>
+  <line x1="220" y1="1" x2="220" y2="155" stroke="#d7dee5"/>
+  <text x="240" y="56" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="38" fill="#0f766a" font-weight="600">0</text>
+  <text x="240" y="86" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="15" fill="#121b24" font-weight="600">answers outright wrong</text>
+  <text x="240" y="110" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">on the same 139 questions,</text>
+  <text x="240" y="127" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">against 26 wrong answers</text>
+  <text x="240" y="144" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">without it</text>
+  <line x1="440" y1="1" x2="440" y2="155" stroke="#d7dee5"/>
+  <text x="460" y="56" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="38" fill="#0f766a" font-weight="600">3×</text>
+  <text x="460" y="86" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="15" fill="#121b24" font-weight="600">less total time</text>
+  <text x="460" y="110" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">1.2 h against 3.6 h for the</text>
+  <text x="460" y="127" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">same 139 questions</text>
+  <line x1="660" y1="1" x2="660" y2="155" stroke="#d7dee5"/>
+  <text x="680" y="56" font-family='ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace' font-size="38" fill="#0f766a" font-weight="600">2.2×</text>
+  <text x="680" y="86" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="15" fill="#121b24" font-weight="600">fewer input tokens</text>
+  <text x="680" y="110" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">93k per question against 200k</text>
+  <text x="680" y="127" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">on the same 139, standing</text>
+  <text x="680" y="144" font-family='"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-size="12.5" fill="#4a5866">context included</text>
+</svg>
