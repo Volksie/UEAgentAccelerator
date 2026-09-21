@@ -14,8 +14,12 @@ A layered memory stack for running coding agents on an Unreal Engine codebase.<b
 </p>
 
 <p align="center">
+  <a href="WHY-A-MEMORY-STACK.md"><img src="https://img.shields.io/badge/Why_a_memory_stack%3F-Read_the_measured_case_%E2%86%92-0f766a.svg?style=for-the-badge" alt="Why a memory stack? Read the measured case"></a>
+</p>
+
+<p align="center">
+  <a href="WHY-A-MEMORY-STACK.md"><b>Why a memory stack</b></a> &middot;
   <a href="#the-problem">The problem</a> &middot;
-  <a href="#why-its-needed">Why it's needed</a> &middot;
   <a href="#the-stack">The stack</a> &middot;
   <a href="#install">Install</a> &middot;
   <a href="#what-you-get">What you get</a> &middot;
