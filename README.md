@@ -2,6 +2,8 @@
 
 <p align="center"><i>Your agent can't read what UnrealHeaderTool wrote.</i></p>
 
+<p align="center"><sub>If this is useful to you, please <b>⭐ star the repo</b> so other Unreal developers can find it.</sub></p>
+
 <p align="center">
 A layered memory stack for running coding agents on an Unreal Engine codebase.<br> It writes down what your project actually looks like at runtime, in files small enough to read, and tells the agent which one to open.
 </p>
