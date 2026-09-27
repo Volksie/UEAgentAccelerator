@@ -10,7 +10,7 @@
       "name": "ue-memory-stack",
       "source": "./plugins/ue-memory-stack",
       "description": "Generates what an Unreal codebase actually looks like at runtime - reflection specifiers, replication conditions and Blueprint-to-C++ edges - into files small enough to read, and tells an agent which one answers which question.",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "author": {
         "name": "Louis Larsson-De Wet"
       },
@@ -31,7 +31,7 @@
       "name": "ue-memory-bench",
       "source": "./plugins/ue-memory-bench",
       "description": "The paired benchmark behind the stack's published numbers: question generation from your own artefacts, a clean-room baseline arm, multi-pass judging, and the method notes that say what each figure is allowed to mean.",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "author": {
         "name": "Louis Larsson-De Wet"
       },

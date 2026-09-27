@@ -134,6 +134,44 @@ function Get-P4Directory {
     return (Get-Location).Path
 }
 
+function Initialize-P4Config {
+    <#
+        Makes p4 read this tree's config file, once per process.
+
+        p4 only looks for a tree's .p4config when P4CONFIG names it. P4CONFIG is a per-user setting
+        that P4V rewrites whenever somebody switches workspace, so on a machine with a second
+        Perforce project it is routinely either unset or pointing elsewhere. p4 then answers for
+        whichever client the registry last named, `p4 info` succeeds and prints a real client, and
+        only the commands that name a path fail, with "not under client's root". The caller reads
+        that as Perforce refusing, clears the read only flag and writes anyway - so the file changes
+        and never joins a changelist, which is the failure that hides longest.
+
+        Deliberately conservative: an existing P4CONFIG is left alone, whether it came from the
+        environment or from `p4 set`, because it may well name a differently named config file. Only
+        a tree that has a .p4config and no setting at all gets one, so a git tree is untouched.
+    #>
+    param([Parameter(Mandatory)] [string] $Directory)
+
+    if ($script:P4ConfigChecked) { return }
+    $script:P4ConfigChecked = $true
+
+    if ($env:P4CONFIG) { return }
+    $set = (& p4 set P4CONFIG 2>&1) -join ' '
+    if ($set -match 'P4CONFIG=\S') { return }
+
+    $dir = $Directory
+    while ($dir) {
+        if (Test-Path -LiteralPath (Join-Path $dir '.p4config')) {
+            $env:P4CONFIG = '.p4config'
+            Write-Verbose "P4CONFIG was unset; pointed it at the .p4config in $dir."
+            return
+        }
+        $parent = Split-Path -Parent $dir
+        if ($parent -eq $dir) { break }
+        $dir = $parent
+    }
+}
+
 function Test-P4Available {
     <#
         True if a p4 client exists on PATH and can reach a server from the given directory with a
@@ -149,6 +187,7 @@ function Test-P4Available {
         Write-Verbose "p4 is not on PATH."
         return $false
     }
+    Initialize-P4Config -Directory $Directory
     $out = Invoke-P4 $Directory info
     if (-not (Test-P4Succeeded)) {
         Write-Verbose "p4 info failed in $Directory."

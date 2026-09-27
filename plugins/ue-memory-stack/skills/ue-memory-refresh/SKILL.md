@@ -47,6 +47,8 @@ Artefacts are moved aside rather than wiped, because a run that dies half way th
 
 Commit or submit the regenerated artefacts with the code change that caused them. They are describing that change; landing them separately means everyone else's answers are wrong until they do.
 
+**Deletions need finding by hand.** When a class or Blueprint is removed, its artefact stops being written, and a reconcile that covers adds and edits will not notice. The stale file stays in the depot describing something that no longer exists, and the next sync restores it locally, so the gap hides in both directions. Check each artefact folder for them - `p4 reconcile -n -d`, or `git status` - and open the deletes yourself after confirming each one genuinely went away. It is deliberately not automatic: a half-finished dump is indistinguishable from a wholesale removal, and the safe failure is a stale file rather than a deleted tree.
+
 ## Going deeper
 
 - `${CLAUDE_PLUGIN_ROOT}/docs/06-keeping-it-fresh.md` — the full freshness argument, including the CI check.

@@ -63,6 +63,7 @@ Two things that comparison cannot see, so check them separately:
 
 - **Your own uncommitted edits.** `p4 opened` or `git status` over the source paths. A `UPROPERTY` you changed and have not submitted is invisible to a revision comparison, and it is the most likely thing to be stale.
 - **Artefacts that are not in source control yet**, on a tree being set up. There is nothing to compare against, so fall back to file times and *say* that is what you did. It is a weaker answer and should read like one.
+- **Artefacts the run deleted.** A removed class stops being written, so its file disappears from the workspace while staying in source control. Reconciling adds and edits will not see it, the depot keeps an artefact for a class that no longer exists, and the next sync writes it back - which reads as the regeneration having failed to remove it. Check with `p4 reconcile -n -d` over the artefact folders, or `git status`, and record the deletions deliberately rather than automatically: a dump that died part way through looks exactly the same from the filesystem, and an automatic delete would empty the depot.
 
 The compile database is the happy exception: it is normally ignored by source control, so it is never synced, its timestamp really is the moment it was built on this machine, and comparing it against a synced `.Build.cs` is sound.
 

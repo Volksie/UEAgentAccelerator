@@ -79,6 +79,10 @@ param(
     [switch] $NoSourceControl
 )
 
+# Unlock-FileForWrite, for the install record below. It is the only file here that is overwritten
+# rather than written when absent, so it is the only one that can meet source control.
+. (Join-Path $PSScriptRoot 'Common.ps1')
+
 $ErrorActionPreference = 'Stop'
 
 # Resolved in the body, not in a parameter default: on Windows PowerShell 5.1 $PSScriptRoot can be
@@ -355,6 +359,14 @@ else {
         mode          = if ($referencedFrom) { 'Reference' } else { $Mode }
         uproject      = (Relative $ProjectPath)
         ueSourceHash  = $sourceHash
+    }
+
+    # The record is overwritten, not created, so on a controlled tree it is read only and the write
+    # throws. That lands after the plugin has already been copied, leaving the copy on the new
+    # version and the record still naming the old one - the one state the version check cannot see,
+    # because a difference then looks like no difference at all. Check it out first.
+    if (Test-Path -LiteralPath $manifest) {
+        $null = Unlock-FileForWrite -Path $manifest -NoSourceControl:$NoSourceControl
     }
 
     ([ordered]@{

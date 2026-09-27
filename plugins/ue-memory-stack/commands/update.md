@@ -29,6 +29,8 @@ Add `-Preset Artefacts` or `-DryRun` to match the arguments. Without a config, f
 
 **5. Then say what changed**, and that the artefacts should be committed or submitted with the code change that caused them. Landing them separately leaves everyone else's answers wrong until they do.
 
+**6. Check for artefacts the run removed.** A class or Blueprint that went away takes its artefact with it, and source control does not notice on its own: a reconcile for adds and edits leaves the deleted file in the depot still claiming the class exists, and the next sync puts it back on disk. Look for them explicitly - `p4 reconcile -n -d` over each artefact folder, or `git status` - and open them for delete yourself once you have checked each one really went away. Do not automate the delete: a dump that died half way through leaves most of its output missing, and a blind delete would then remove the lot.
+
 ## If it fails
 
 - **"in use" or a locked file** usually means the editor is open, or a previous run left isolation applied.
